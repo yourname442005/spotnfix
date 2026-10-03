@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government of Jharkhand - DM Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f9f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header */
+    .top-header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        background-color: black;
+        padding: 10px 20px;
+        gap: 10px;
+    }
+
+    .header-right {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items:center;
+    }
+
+    .header-btn.login-btn {
+        position: relative;
+        top: -8px;
+    }
+
+    .header-btn {
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+
+    .header-btn:hover {
+      background-color: black;
+    }
+
+    /* Translate dropdown */
+    .translate-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .translate-options {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 100px;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .translate-options a {
+      display: block;
+      padding: 8px 12px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .translate-options a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .translate-container:hover .translate-options {
+      display: block;
+    }
+
+    /* Logo and title section */
+    .banner {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: white;
+      padding: 15px 20px;
+    }
+
+    .banner img {
+      height: 70px;
+      margin-right: 15px;
+    }
+
+    .banner-text{
+        flex-grow: 1;
+    }
+    .banner h1 {
+      font-size: 22px;
+      margin: 0;
+      font-weight: bold;
+      color: #000;
+      margin-left: -25px;
+    }
+
+    .banner p {
+      margin: 0;
+      font-size: 14px;
+      color: #333;
+      margin-left: -20px;
+    }
+
+    /* Login box */
+    .login-container {
+      max-width: 380px;
+      margin: 60px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .login-container h2 {
+      text-align: center;
+      color: #006400;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    input[type="email"], input[type="password"] {
+      width: 95%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    /* Password field with toggle */
+    .password-container {
+      position: relative;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .password-container input {
+      width: 100%;
+      padding: 10px;
+      padding-right: 60px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .password-container .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 13px;
+      color: #006400;
+      background: none;
+      border: none;
+    }
+
+    .forgot-password {
+      display: block;
+      text-align: right;
+      font-size: 13px;
+      margin-bottom: 15px;
+      color: #006400;
+      text-decoration: none;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #006400;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004d00;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="top-header">
+    <div class="header-left"></div>
+    <div class="header-right">
+        <button class="header-btn login-btn" data-translate="registerBtn" onclick="window.location.href='executive_register.html'">Register</button>
+        <div class="translate-container">
+          <button class="header-btn">Translate ▼</button>
+          <div class="translate-options">
+              <a href="#" onclick="setLanguage('hi')">हिन्दी</a>
+              <a href="#" onclick="setLanguage('en')">English</a>
+          </div>
+        </div>
+    </div>
+  </header>
+
+  <!-- Banner with logo and title -->
+  <div class="banner">
+    <!-- ✅ KEEP THIS Jharkhand logo -->
+    <img src="./assets/img/Government_of_Jharkhand_logo-removebg-preview.png" alt="Jharkhand Logo">
+    <div class="banner-text">
+      <h1 data-translate="title">GOVERNMENT OF JHARKHAND</h1>
+      <p data-translate="subtitle">Official website of the State</p>
+    </div>
+    <!-- ❌ Removed SportNfix logo -->
+  </div>
+  <hr style="border: 1px solid black; margin: 0;">
+
+  <!-- Login Box -->
+  <div class="login-container">
+    <h2 data-translate="loginHeading">DM Login</h2>
+    <form id="loginForm">
+      <!-- Email instead of Executive ID -->
+      <label for="email" data-translate="emailLabel">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your Email" required data-translate-placeholder="emailPlaceholder">
+
+      <label for="password" data-translate="passwordLabel">Password</label>
+      <div class="password-container">
+        <input type="password" id="password" name="password" placeholder="Enter your password" required data-translate-placeholder="passwordPlaceholder">
+        <span class="toggle-password" onclick="togglePassword()" data-translate="showBtn">Show</span>
+      </div>
+
+      <a href="#" class="forgot-password" data-translate="forgotPassword">Forgot Password?</a>
+      <button type="submit" data-translate="loginBtn">Login</button>
+      <p class="error" id="errorMsg"></p>
+    </form>
+  </div>
+
+
+  <script>
+  let currentLang = "en";
+
+  const translations = {
+    en: {
+      title: "GOVERNMENT OF JHARKHAND",
+      subtitle: "Official website of the State",
+      loginHeading: "Executive Login",
+      emailLabel: "Email",
+      emailPlaceholder: "Enter your Email",
+      passwordLabel: "Password",
+      passwordPlaceholder: "Enter your password",
+      forgotPassword: "Forgot Password?",
+      loginBtn: "Login",
+      registerBtn: "Register",
+      showBtn: "Show",
+      hideBtn: "Hide"
+    },
+    hi: {
+      title: "झारखण्ड सरकार",
+      subtitle: "राज्य की आधिकारिक वेबसाइट",
+      loginHeading: "कार्यपालक लॉगिन",
+      emailLabel: "ईमेल",
+      emailPlaceholder: "अपना ईमेल दर्ज करें",
+      passwordLabel: "पासवर्ड",
+      passwordPlaceholder: "अपना पासवर्ड दर्ज करें",
+      forgotPassword: "पासवर्ड भूल गए?",
+      loginBtn: "लॉगिन",
+      registerBtn: "रजिस्टर",
+      showBtn: "दिखाएँ",
+      hideBtn: "छिपाएँ"
+    }
+  };
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll("[data-translate]").forEach(el => {
+      const key = el.getAttribute("data-translate");
+      if (translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      }
+    });
+
+    document.querySelectorAll("[data-translate-placeholder]").forEach(el => {
+      const key = el.getAttribute("data-translate-placeholder");
+      if (translations[lang][key]) {
+        el.placeholder = translations[lang][key];
+      }
+    });
+  }
+
+  function togglePassword() {
+    const passwordField = document.getElementById("password");
+    const toggleText = document.querySelector(".toggle-password");
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      toggleText.textContent = translations[currentLang].hideBtn;
+    } else {
+      passwordField.type = "password";
+      toggleText.textContent = translations[currentLang].showBtn;
+    }
+  }
+
+  // ✅ Login form submit
+  document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const errorMsg = document.getElementById("errorMsg");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/dm/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        errorMsg.style.color = "green";
+        errorMsg.textContent = "✅ Login Successful!";
+        
+        // Store DM data in localStorage
+        if (data.dm) {
+          localStorage.setItem('dmData', JSON.stringify(data.dm));
+        }
+        
+        setTimeout(() => {
+          window.location.href = "dm-portal.html"; // redirect after login
+        }, 1500);
+      } else {
+        errorMsg.style.color = "red";
+        errorMsg.textContent = "❌ " + (data.msg || "Invalid login");
+      }
+    } catch (err) {
+      console.error(err);
+      errorMsg.style.color = "red";
+      errorMsg.textContent = "❌ Server connection failed";
+    }
+  });
+</script>
+
+</body>
+</html>

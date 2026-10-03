@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Municipality Admin Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-portal.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>Admin</h2>
+                        <p>Department • ID: N/A</p>
+                        <p class="role">Executive Officer</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-view="dashboard">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-view="issues">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Issue Management</span>
+                    </li>
+                    <li class="nav-item" data-view="community">
+                        <i class="fas fa-users"></i>
+                        <span>Ward Community</span>
+                    </li>
+                    <li class="nav-item" data-view="assignments">
+                        <i class="fas fa-user-check"></i>
+                        <span>Assignments</span>
+                    </li>
+                    <li class="nav-item" data-view="kanban">
+                        <i class="fas fa-kanban"></i>
+                        <span>Kanban Board</span>
+                    </li>
+                    <li class="nav-item" data-view="ai-routing">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Routing</span>
+                    </li>
+                    <li class="nav-item" data-view="sla-tracker">
+                        <i class="fas fa-clock"></i>
+                        <span>SLA Tracker</span>
+                    </li>
+                    <li class="nav-item" data-view="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="text-xs text-gray-500 mb-1">Logged in as:</div>
+                    <div class="text-sm font-medium">Department</div>
+                    <div class="text-xs text-gray-600">Department</div>
+                </div>
+                
+                <div class="role-switcher">
+                    <p class="text-xs text-gray-500">Role Switcher (Demo):</p>
+                    <div class="flex space-x-2">
+                        <button class="btn btn-primary btn-sm" id="eo-role">EO</button>
+                        <button class="btn btn-outline btn-sm" id="dept-head-role">Dept Head</button>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <div class="dashboard-header">
+                    <div>
+                        <h1>Department Dashboard</h1>
+                        <p>Executive Officer - Administrative Overview</p>
+                    </div>
+                    <div class="header-badges">
+                        <span class="badge badge-success">Online</span>
+                        <span class="badge badge-primary">Admin</span>
+                        <span class="badge badge-secondary">EO</span>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">Total Issues</p>
+                                <p class="stat-value">156</p>
+                            </div>
+                            <i class="fas fa-file-alt stat-icon"></i>
+                        </div>
+                        <div class="stat-footer">
+                            <i class="fas fa-trending-up text-green-500"></i>
+                            <span class="text-green-600">+12% from last week</span>
+                        </div>
+                    </div>
+
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">Resolved</p>
+                                <p class="stat-value text-green-600">112</p>
+                            </div>
+                            <i class="fas fa-check-circle stat-icon text-green-500"></i>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 72%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">SLA Compliance</p>
+                                <p class="stat-value">91%</p>
+                            </div>
+                            <i class="fas fa-clock stat-icon"></i>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 91%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">Avg Resolution</p>
+                                <p class="stat-value">18h</p>
+                            </div>
+                            <i class="fas fa-bolt stat-icon text-yellow-500"></i>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="text-gray-600">Target: 24 hours</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Issues -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Recent Issues</h2>
+                        <button class="btn btn-outline btn-sm">View All</button>
+                    </div>
+                    <div class="issues-list">
+                        <div class="issue-item">
+                            <div class="issue-info">
+                                <div class="issue-title">
+                                    <h3>Street light not working</h3>
+                                    <span class="badge badge-outline">Electrical</span>
+                                    <span class="badge badge-high">High</span>
+                                </div>
+                                <div class="issue-details">
+                                    <span>CIV-2025-001</span>
+                                    <span>•</span>
+                                    <span>Main Road, Sector 5</span>
+                                    <span>•</span>
+                                    <span>6 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="issue-status">
+                                <span class="badge badge-blue">In Progress</span>
+                                <p class="text-xs text-gray-500">SLA: 4 hours</p>
+                            </div>
+                        </div>
+                        
+                        <div class="issue-item">
+                            <div class="issue-info">
+                                <div class="issue-title">
+                                    <h3>Water logging issue</h3>
+                                    <span class="badge badge-outline">Public Works</span>
+                                    <span class="badge badge-medium">Medium</span>
+                                </div>
+                                <div class="issue-details">
+                                    <span>CIV-2025-002</span>
+                                    <span>•</span>
+                                    <span>Park Avenue, Sector 2</span>
+                                    <span>•</span>
+                                    <span>2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="issue-status">
+                                <span class="badge badge-yellow">Pending</span>
+                                <p class="text-xs text-gray-500">SLA: 2 days</p>
+                            </div>
+                        </div>
+                        
+                        <div class="issue-item">
+                            <div class="issue-info">
+                                <div class="issue-title">
+                                    <h3>Garbage collection missed</h3>
+                                    <span class="badge badge-outline">Sanitation</span>
+                                    <span class="badge badge-low">Low</span>
+                                </div>
+                                <div class="issue-details">
+                                    <span>CIV-2025-003</span>
+                                    <span>•</span>
+                                    <span>Residential Block A</span>
+                                    <span>•</span>
+                                    <span>1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="issue-status">
+                                <span class="badge badge-green">Resolved</span>
+                                <p class="text-xs text-gray-500">SLA: Completed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/admin-portal.js"></script>
+</body>
+</html>

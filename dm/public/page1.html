@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpotNFix - Civic Engagement Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-dark: #0B3C5D;
+            --primary: #00A896;
+            --primary-light: rgba(0, 168, 150, 0.1);
+            --secondary: #F8FAFC;
+            --text-dark: #212529;
+            --text-gray: #6c757d;
+            --text-light: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --border: #e9ecef;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 8px;
+        }
+        
+        body {
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        /* Layout */
+        .web-portal {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navigation */
+        .navbar {
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            flex-grow: 1;
+            width: 100%;
+        }
+        
+        /* Common Components */
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #008a7a;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-dark);
+        }
+        
+        .btn-outline:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .btn-ghost {
+            background-color: transparent;
+            border: none;
+            color: var(--text-dark);
+            padding: 0.5rem;
+        }
+        
+        .btn-ghost:hover {
+            background-color: #f8f9fa;
+            border-radius: 50%;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        
+        .badge-primary {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+            height: 0.5rem;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-75 {
+            background-color: var(--success);
+            width: 75%;
+        }
+        
+        .progress-25 {
+            background-color: var(--warning);
+            width: 25%;
+        }
+        
+        .progress-100 {
+            background-color: var(--success);
+            width: 100%;
+        }
+        
+        .progress-10 {
+            background-color: var(--info);
+            width: 10%;
+        }
+        
+        .progress-60 {
+            background-color: var(--info);
+            width: 60%;
+        }
+        
+        .progress-5 {
+            background-color: var(--info);
+            width: 5%;
+        }
+        
+        .progress-0 {
+            background-color: var(--danger);
+            width: 0%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            color: white;
+            border-radius: var(--radius);
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-trend {
+            font-size: 0.875rem;
+        }
+        
+        /* Issues List */
+        .issues-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .issue-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .issue-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+        
+        .issue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .issue-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .issue-id {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        
+        .issue-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .issue-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .progress-text {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        
+        .issue-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .sla-info {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Reporting Methods */
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .method-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .method-card:hover, .method-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.1);
+        }
+        
+        .method-icon {
+            width: 3rem;
+            height: 3rem;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .method-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+        
+        .method-desc {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        
+        /* Progress Indicator */
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .progress-step {
+            display: flex;
+            align-items: center;
+            z-index: 2;
+        }
+        
+        .step-number {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .step-number.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .step-number.inactive {
+            background-color: #e5e7eb;
+            color: var(--text-gray);
+        }
+        
+        .step-connector {
+            width: 3rem;
+            height: 0.125rem;
+            background-color: #e5e7eb;
+            position: relative;
+        }
+        
+        .step-connector.active {
+            background-color: var(--primary);
+        }
+        
+        /* View Containers */
+        .view-container {
+            display: none;
+        }
+        
+        .view-container.active {
+            display: block;
+        }
+        
+        /* Issue Details View */
+        .issue-details-view {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .issue-details-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .issue-details-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .issue-media {
+            margin-bottom: 1.5rem;
+        }
+        
+        .issue-media img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius);
+        }
+        
+        .timeline {
+            margin-top: 2rem;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 2rem;
+            left: 0.75rem;
+            width: 2px;
+            height: calc(100% + 1rem);
+            background-color: #e5e7eb;
+            z-index: 1;
+        }
+        
+        .timeline-dot {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .timeline-dot.completed {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-status {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        
+        .timeline-date {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        
+        .timeline-description {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+            margin-top: 0.25rem;
+        }
+        
+        .quick-actions {
+            margin-top: 2rem;
+        }
+        
+        .quick-actions .btn {
+            width: 100%;
+            justify-content: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Profile View */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .profile-info h2 {
+            margin-bottom: 0.25rem;
+        }
+        
+        .profile-info p {
+            color: var(--text-gray);
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-stat {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .profile-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .profile-stat-label {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .issues-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .issue-card {
+                flex-direction: column;
+            }
+            
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .issue-details-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 90;
+            padding: 0.5rem 0;
+        }
+        
+        .mobile-nav-items {
+            display: flex;
+            justify-content: space-around;
+            padding: 0 1rem;
+        }
+        
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            flex: 1;
+        }
+        
+        .mobile-nav-item.active {
+            color: var(--primary);
+        }
+        
+        .mobile-nav-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-nav {
+                display: block;
+            }
+        }
+        
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-1 {
+            margin-top: 0.5rem;
+        }
+        
+        .mt-2 {
+            margin-top: 1rem;
+        }
+        
+        .mt-3 {
+            margin-top: 1.5rem;
+        }
+        
+        .mb-1 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .mb-2 {
+            margin-bottom: 1rem;
+        }
+        
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .flex {
+            display: flex;
+        }
+        
+        .items-center {
+            align-items: center;
+        }
+        
+        .justify-between {
+            justify-content: space-between;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .grid {
+            display: grid;
+        }
+        
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+        
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .gap-4 {
+            gap: 1rem;
+        }
+        
+        .gap-6 {
+            gap: 1.5rem;
+        }
+        
+        .w-full {
+            width: 100%;
+        }
+        
+        @media (min-width: 769px) {
+            .mobile-only {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none;
+            }
+            
+            .grid-cols-2, .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="web-portal">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>SpotNFix</h1>
+                        <p>Citizen Portal</p>
+                    </div>
+                </div>
+                
+                <div class="nav-links desktop-only">
+                    <a href="#" class="nav-link active" data-view="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-link" data-view="my-issues">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>My Issues</span>
+                    </a>
+                    <a href="#" class="nav-link" data-view="profile">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <button class="btn btn-primary" data-view="report">
+                        <i class="fas fa-plus"></i>
+                        <span>Report Issue</span>
+                    </button>
+                    <button class="btn btn-outline" id="back-to-portal">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>Back to Portal</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="view-container active">
+                <section class="hero">
+                    <div class="max-w-4xl">
+                        <h1>Report, Track, and Resolve<br><span style="color: #FFD700;">Civic Issues in Jharkhand</span></h1>
+                        <p>Join thousands of citizens making their communities better through transparent civic engagement.</p>
+                        <button class="btn btn-primary desktop-only" data-view="report">
+                            <i class="fas fa-plus"></i>
+                            Report New Issue
+                        </button>
+                    </div>
+                </section>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: var(--primary-dark);" id="total-issues">0</div>
+                        <div class="stat-label">Total Reports</div>
+                        <div class="stat-trend" style="color: var(--text-gray);">No reports yet</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: var(--success);" id="resolved-issues">0</div>
+                        <div class="stat-label">Issues Resolved</div>
+                        <div class="stat-trend" style="color: var(--text-gray);">No resolved issues</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" style="color: var(--warning);" id="pending-issues">0</div>
+                        <div class="stat-label">Pending Issues</div>
+                        <div class="stat-trend" style="color: var(--text-gray);">No pending issues</div>
+                    </div>
+                </div>
+                
+                <section>
+                    <div class="issues-header">
+                        <div>
+                            <h2 class="section-title">Your Active Issues</h2>
+                            <p class="text-gray-600">Track the progress of your reported civic issues</p>
+                        </div>
+                        <div class="flex items-center space-x-3 mt-4 md:mt-0">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-filter"></i>
+                                Filter
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-search"></i>
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-6">
+                        <!-- Issues will be populated here dynamically -->
+                        <div id="issues-list">
+                            <!-- No issues will be shown initially -->
+                            <div class="card text-center py-8">
+                                <i class="fas fa-clipboard-list text-4xl text-gray-300 mb-4"></i>
+                                <h3 class="text-xl font-medium text-gray-600">No issues reported yet</h3>
+                                <p class="text-gray-500 mt-2">Start by reporting your first civic issue</p>
+                                <button class="btn btn-primary mt-4" data-view="report">
+                                    <i class="fas fa-plus"></i>
+                                    Report Your First Issue
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Report Issue View -->
+            <div id="report-view" class="view-container">
+                <div class="card">
+                    <div class="flex items-center mb-6">
+                        <button class="btn btn-ghost back-button">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <h2 class="text-2xl font-bold text-[#0B3C5D]">Report New Issue</h2>
+                    </div>
+                    
+                    <div class="progress-indicator">
+                        <div class="progress-step">
+                            <div class="step-number active">1</div>
+                        </div>
+                        <div class="step-connector active"></div>
+                        <div class="progress-step">
+                            <div class="step-number inactive">2</div>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="progress-step">
+                            <div class="step-number inactive">3</div>
+                        </div>
+                    </div>
+                    
+                    <div id="report-step-1">
+                        <h3 class="text-center mb-2">Choose Reporting Method</h3>
+                        <p class="text-center text-gray-600 mb-6">Select how you'd like to report this issue</p>
+                        
+                        <div class="methods-grid">
+                            <div class="method-card" data-method="photo">
+                                <div class="method-icon">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div class="method-name">Photo/Video</div>
+                                <div class="method-desc">Upload images or videos of the issue</div>
+                            </div>
+                            
+                            <div class="method-card" data-method="voice">
+                                <div class="method-icon">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
+                                <div class="method-name">Voice Note</div>
+                                <div class="method-desc">Record an audio description</div>
+                            </div>
+                            
+                            <div class="method-card" data-method="map">
+                                <div class="method-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="method-name">Map Pin</div>
+                                <div class="method-desc">Pin exact location on map</div>
+                            </div>
+                            
+                            <div class="method-card" data-method="text">
+                                <div class="method-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="method-name">Text Report</div>
+                                <div class="method-desc">Write a detailed description</div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-6">
+                            <button class="btn btn-primary" id="next-step-1">
+                                Next Step
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="report-step-2" class="hidden">
+                        <h3 class="text-center mb-2">Issue Details</h3>
+                        <p class="text-center text-gray-600 mb-6">Provide information about the civic issue</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-6">
+                                <div class="form-group">
+                                    <label class="form-label">Issue Title </label>
+                                    <input type="text" class="form-input" placeholder="Briefly describe the issue" id="issue-title">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Category </label>
+                                    <select class="form-select" id="issue-category">
+                                        <option value="">Select category</option>
+                                        <option value="Street Lighting">Street Lighting</option>
+                                        <option value="Water & Drainage">Water & Drainage</option>
+                                        <option value="Garbage Collection">Garbage Collection</option>
+                                        <option value="Road Maintenance">Road Maintenance</option>
+                                        <option value="Public Safety">Public Safety</option>
+                                        <option value="Electricity">Electricity</option>
+                                        <option value="Public Transport">Public Transport</option>
+                                        <option value="Parks & Recreation">Parks & Recreation</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Location </label>
+                                    <div class="flex space-x-2">
+                                        <input type="text" class="form-input" placeholder="Enter address or use GPS" id="issue-location">
+                                        <button class="btn btn-outline">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-6">
+                                <div class="form-group">
+                                    <label class="form-label">Description </label>
+                                    <textarea class="form-textarea" placeholder="Provide detailed information about the issue, its impact, and any relevant context" id="issue-description" rows="6"></textarea>
+                                </div>
+
+                                <div class="form-group hidden" id="audio-recorder-container">
+                                    <label class="form-label">Record Audio Description</label>
+                                    <div>
+                                        <button type="button" id="start-record-btn" class="btn btn-outline">
+                                            <i class="fas fa-microphone"></i> Start Recording
+                                        </button>
+                                        <button type="button" id="stop-record-btn" class="btn btn-outline" disabled>
+                                            <i class="fas fa-stop"></i> Stop Recording
+                                        </button>
+                                    </div>
+                                    <audio id="audio-playback" controls class="mt-3" style="width: 100%; display: none;"></audio>
+                                </div>
+
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Upload Files </label>
+                                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#00A896] transition-colors">
+                                        <i class="fas fa-cloud-upload-alt text-gray-400 text-2xl mb-2"></i>
+                                        <p class="text-sm text-gray-600 mb-2">Drag & drop files here or click to browse</p>
+                                        <p class="text-xs text-gray-500">Supports: JPG, PNG, MP4, PDF (Max 10MB each)</p>
+                                        <button class="btn btn-outline mt-3">Choose Files</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-6">
+                            <button class="btn btn-outline" id="prev-step-2">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Previous
+                            </button>
+                            <button class="btn btn-primary" id="next-step-2">
+                                Review & Submit
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="report-step-3" class="hidden">
+                        <h3 class="text-center mb-2">Review & Submit</h2>
+                        <p class="text-center text-gray-600 mb-6">Please review your issue report before submitting</p>
+                        
+                        <div class="card mb-6" style="background-color: var(--primary-light); border-color: var(--primary);">
+                            <h3 class="mb-4">Issue Summary</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <p class="text-sm text-gray-600">Title:</p>
+                                    <p class="font-medium" id="review-title">Street light not working</p>
+                                    
+                                    <p class="text-sm text-gray-600 mt-3">Category:</p>
+                                    <p class="font-medium" id="review-category">Street Lighting</p>
+                                    
+                                    <p class="text-sm text-gray-600 mt-3">Location:</p>
+                                    <p class="font-medium" id="review-location">Main Road, Sector 5</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Reporting Method:</p>
+                                    <p class="font-medium" id="review-method">Photo/Video</p>
+                                    
+                                    <p class="text-sm text-gray-600 mt-3">Description:</p>
+                                    <p class="font-medium" id="review-description">The street light near the community center has been non-functional for 3 days.</p>
+                                    <div id="review-audio-container" class="mt-3" style="display: none;">
+                                        <p class="text-sm text-gray-600">Audio Description:</p>
+                                        <audio id="review-audio" controls style="width: 100%;"></audio>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                            <div class="flex">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-medium text-yellow-800">Important Notice</h4>
+                                    <p class="text-sm text-yellow-700 mt-1">
+                                        By submitting this report, you confirm that all information provided is accurate. 
+                                        False reporting may invite penalties under municipal bylaws. You will receive 
+                                        updates via SMS and email on the registered contact details.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button class="btn btn-outline" id="prev-step-3">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Previous
+                            </button>
+                            <button class="btn btn-primary" id="submit-issue">
+                                Submit Issue Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- My Issues View -->
+            <div id="my-issues-view" class="view-container">
+                <div class="card">
+                    <h2>My Issues</h2>
+                    <p class="text-gray-600 mb-6">Track all your reported civic issues and their progress</p>
+                    
+                    <div class="issues-header">
+                        <div class="flex">
+                            <button class="btn btn-outline active">All</button>
+                            <button class="btn btn-outline ml-2">Open</button>
+                            <button class="btn btn-outline ml-2">Resolved</button>
+                        </div>
+                        <button class="btn btn-primary" data-view="report">
+                            <i class="fas fa-plus"></i>
+                            Report New Issue
+                        </button>
+                    </div>
+                    
+                    <!-- Issues will be populated here dynamically -->
+                    <div id="my-issues-list">
+                        <!-- No issues will be shown initially -->
+                        <div class="card text-center py-8">
+                            <i class="fas fa-clipboard-list text-4xl text-gray-300 mb-4"></i>
+                            <h3 class="text-xl font-medium text-gray-600">No issues reported yet</h3>
+                            <p class="text-gray-500 mt-2">Start by reporting your first civic issue</p>
+                            <button class="btn btn-primary mt-4" data-view="report">
+                                <i class="fas fa-plus"></i>
+                                Report Your First Issue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Issue Details View -->
+            <div id="issue-details-view" class="view-container">
+                <div class="issue-details-view">
+                    <div class="issue-details-header">
+                        <button class="btn btn-ghost back-button">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div>
+                            <h2 id="detail-issue-title">Street light not working on Main Road</h2>
+                            <p class="text-gray-600" id="detail-issue-id">#SNF-24-1092</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-6">
+                        <div class="flex flex-wrap gap-3 mb-4">
+                            <span class="badge badge-info" id="detail-issue-status">In Progress</span>
+                            <span class="badge badge-danger" id="detail-issue-priority">High Priority</span>
+                            <span class="badge badge-primary" id="detail-issue-category">Street Lighting</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="sla-info">
+                                <i class="fas fa-clock"></i>
+                                <span id="detail-issue-deadline">Due in 2 days</span>
+                            </div>
+                            <div class="text-gray-600">
+                                <i class="fas fa-calendar"></i>
+                                <span>Reported on: 15 Nov 2023</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-2">
+                                <span class="text-gray-600">Progress</span>
+                                <span class="font-medium text-[#0B3C5D]" id="detail-issue-progress">75%</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar progress-75"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-600">Department:</span>
+                                <p class="font-medium text-[#0B3C5D]" id="detail-issue-department">Electrical Department</p>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Reported:</span>
+                                <p class="font-medium text-[#0B3C5D]">15 Nov 2023</p>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Location:</span>
+                                <p class="font-medium text-[#0B3C5D]">Main Road, Sector 5, Ranchi</p>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Assigned Officer:</span>
+                                <p class="font-medium text-[#0B3C5D]">Rajesh Kumar (Electrical Dept)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="issue-details-content">
+                        <div>
+                            <div class="card mb-6">
+                                <h3 class="mb-4">Issue Description</h3>
+                                <p>The street light near the community center has been non-functional for 3 days. This is causing safety concerns for pedestrians and vehicles during night time. Several residents have complained about the issue.</p>
+                            </div>
+                            
+                            <div class="card mb-6">
+                                <h3 class="mb-4">Media</h3>
+                                <div class="issue-media">
+                                    <img src="https://placehold.co/600x400/e6f7ff/0B3C5D?text=Street+Light+Issue" alt="Issue Image">
+                                </div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <img src="https://placehold.co/200x200/e6f7ff/0B3C5D?text=Image+1" alt="Issue Image 1" class="rounded">
+                                    <img src="https://placehold.co/200x200/e6f7ff/0B3C5D?text=Image+2" alt="Issue Image 2" class="rounded">
+                                    <img src="https://placehold.co/200x200/e6f7ff/0B3C5D?text=Image+3" alt="Issue Image 3" class="rounded">
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <h3 class="mb-4">Resolution Timeline</h3>
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot completed">
+                                            <i class="fas fa-check" style="font-size: 10px;"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <p class="timeline-status">Issue Reported</p>
+                                            <p class="timeline-date">15 Nov 2023, 10:30 AM</p>
+                                            <p class="timeline-description">You reported this issue via the mobile app</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot completed">
+                                            <i class="fas fa-check" style="font-size: 10px;"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <p class="timeline-status">Issue Verified</p>
+                                            <p class="timeline-date">15 Nov 2023, 2:15 PM</p>
+                                            <p class="timeline-description">Municipal team verified the issue</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot completed">
+                                            <i class="fas fa-check" style="font-size: 10px;"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <p class="timeline-status">Assigned to Department</p>
+                                            <p class="timeline-date">16 Nov 2023, 9:00 AM</p>
+                                            <p class="timeline-description">Assigned to Electrical Department for resolution</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-clock" style="font-size: 10px;"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <p class="timeline-status">Work In Progress</p>
+                                            <p class="timeline-date">17 Nov 2023, 11:00 AM</p>
+                                            <p class="timeline-description">Electrical team dispatched to location</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot">
+                                            <i class="fas fa-clock" style="font-size: 10px;"></i>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <p class="timeline-status">Resolution</p>
+                                            <p class="timeline-date">Expected: 19 Nov 2023</p>
+                                            <p class="timeline-description">Estimated completion date</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="card mb-6">
+                                <h3 class="mb-4">Quick Actions</h3>
+                                <div class="quick-actions">
+                                    <button class="btn btn-outline">
+                                        <i class="fas fa-comment"></i>
+                                        Add Comment
+                                    </button>
+                                    <button class="btn btn-outline">
+                                        <i class="fas fa-share-alt"></i>
+                                        Share Issue
+                                    </button>
+                                    <button class="btn btn-outline">
+                                        <i class="fas fa-phone"></i>
+                                        Contact Department
+                                    </button>
+                                    <button class="btn btn-outline">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        Escalate Issue
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <h3 class="mb-4">Department Details</h3>
+                                <div class="space-y-3">
+                                    <div>
+                                        <p class="text-sm text-gray-600">Responsible Department:</p>
+                                        <p class="font-medium">Electrical Department</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Contact Person:</p>
+                                        <p class="font-medium">Rajesh Kumar</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Contact Number:</p>
+                                        <p class="font-medium">+91 98765 43210</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Email:</p>
+                                        <p class="font-medium">electrical-dept@ranchi.gov.in</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">Office Address:</p>
+                                        <p class="font-medium">Municipal Corporation Building, Kutchery Road, Ranchi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile View -->
+            <div id="profile-view" class="view-container">
+                <div class="card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profile-name">Your Name</h2>
+                            <p id="profile-location">Your Location</p>
+                        </div>
+                        <button class="btn btn-outline ml-auto" id="edit-profile-btn">
+                            <i class="fas fa-edit"></i>
+                            Edit Profile
+                        </button>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="profile-stat-number" id="profile-total-reports">0</div>
+                            <div class="profile-stat-label">Total Reports</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-number" id="profile-resolved-issues">0</div>
+                            <div class="profile-stat-label">Resolved Issues</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-number" id="profile-pending-issues">0</div>
+                            <div class="profile-stat-label">Pending Issues</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-number" id="profile-success-rate">0%</div>
+                            <div class="profile-stat-label">Success Rate</div>
+                        </div>
+                    </div>
+                    
+                    <div id="profile-view-mode">
+                        <h3 class="mb-4">Personal Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" id="view-full-name" value="Your Name" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" class="form-input" id="view-phone" value="Your Phone" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-input" id="view-email" value="your.email@example.com" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-input" id="view-address" value="Your Address" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="profile-edit-mode" class="hidden">
+                        <h3 class="mb-4">Edit Personal Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" id="edit-full-name" placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" class="form-input" id="edit-phone" placeholder="Enter your phone number">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-input" id="edit-email" placeholder="Enter your email address">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-input" id="edit-address" placeholder="Enter your address">
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-3">
+                            <button class="btn btn-outline" id="cancel-edit-btn">
+                                Cancel
+                            </button>
+                            <button class="btn btn-primary" id="save-profile-btn">
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <h3 class="mb-4">Notification Preferences</h3>
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Email Notifications</p>
+                                <p class="text-sm text-gray-600">Receive updates about your reports via email</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#00A896]"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">SMS Notifications</p>
+                                <p class="text-sm text-gray-600">Receive important updates via SMS</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#00A896]"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium">Push Notifications</p>
+                                <p class="text-sm text-gray-600">Get instant alerts on your device</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#00A896]"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav">
+            <div class="mobile-nav-items">
+                <a href="#" class="mobile-nav-item active" data-view="dashboard">
+                    <i class="fas fa-home mobile-nav-icon"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="mobile-nav-item" data-view="my-issues">
+                    <i class="fas fa-clipboard-list mobile-nav-icon"></i>
+                    <span>My Issues</span>
+                </a>
+                <a href="#" class="mobile-nav-item" data-view="report">
+                    <i class="fas fa-plus-circle mobile-nav-icon"></i>
+                    <span>Report</span>
+                </a>
+                <a href="#" class="mobile-nav-item" data-view="profile">
+                    <i class="fas fa-user mobile-nav-icon"></i>
+                    <span>Profile</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+  <script>
+    // View Navigation
+    document.querySelectorAll('[data-view]').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const viewName = this.getAttribute('data-view');
+            showView(viewName);
+        });
+    });
+
+    // Back buttons
+    document.querySelectorAll('.back-button').forEach(button => {
+        button.addEventListener('click', function() {
+            showView('dashboard');
+        });
+    });
+
+    // Back to Portal button - redirects to dashboard
+    document.getElementById('back-to-portal').addEventListener('click', function() {
+        showView('dashboard');
+    });
+
+    // Show specific view
+    function showView(viewName) {
+        // Hide all views
+        document.querySelectorAll('.view-container').forEach(view => {
+            view.classList.remove('active');
+        });
+        
+        // Show the selected view
+        document.getElementById(`${viewName}-view`).classList.add('active');
+        
+        // Update active nav link
+        document.querySelectorAll('.nav-link, .mobile-nav-item').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        document.querySelectorAll(`[data-view="${viewName}"]`).forEach(link => {
+            link.classList.add('active');
+        });
+    }
+
+    // Report form navigation
+    document.getElementById('next-step-1').addEventListener('click', function() {
+        document.getElementById('report-step-1').classList.add('hidden');
+        document.getElementById('report-step-2').classList.remove('hidden');
+        
+        // Update progress indicator
+        document.querySelectorAll('.step-number')[1].classList.remove('inactive');
+        document.querySelectorAll('.step-number')[1].classList.add('active');
+        document.querySelectorAll('.step-connector')[1].classList.add('active');
+    });
+
+    document.getElementById('prev-step-2').addEventListener('click', function() {
+        document.getElementById('report-step-2').classList.add('hidden');
+        document.getElementById('report-step-1').classList.remove('hidden');
+    });
+
+    document.getElementById('next-step-2').addEventListener('click', function() {
+        // Get form values for review
+        const title = document.getElementById('issue-title').value || 'Street light not working';
+        const category = document.getElementById('issue-category').value || 'Street Lighting';
+        const location = document.getElementById('issue-location').value || 'Main Road, Sector 5';
+        const description = document.getElementById('issue-description').value || 'The street light near the community center has been non-functional for 3 days.';
+        
+        // Update review section
+        document.getElementById('review-title').textContent = title;
+        document.getElementById('review-category').textContent = category;
+        document.getElementById('review-location').textContent = location;
+        document.getElementById('review-description').textContent = description;
+
+        // Wire recorded audio into review if available
+        const reviewAudio = document.getElementById('review-audio');
+        const reviewAudioContainer = document.getElementById('review-audio-container');
+        if (window.recordedAudioUrl && reviewAudio && reviewAudioContainer) {
+            reviewAudio.src = window.recordedAudioUrl;
+            reviewAudioContainer.style.display = 'block';
+        } else if (reviewAudioContainer) {
+            reviewAudioContainer.style.display = 'none';
+        }
+        
+        // Show review step
+        document.getElementById('report-step-2').classList.add('hidden');
+        document.getElementById('report-step-3').classList.remove('hidden');
+        
+        // Update progress indicator
+        document.querySelectorAll('.step-number')[2].classList.remove('inactive');
+        document.querySelectorAll('.step-number')[2].classList.add('active');
+    });
+
+    document.getElementById('prev-step-3').addEventListener('click', function() {
+        document.getElementById('report-step-3').classList.add('hidden');
+        document.getElementById('report-step-2').classList.remove('hidden');
+    });
+
+    // Generate a unique ID for new issues
+    function generateIssueId() {
+        const date = new Date();
+        const randomNum = Math.floor(Math.random() * 100);
+        return `SNF-${date.getFullYear().toString().slice(2)}-${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}${randomNum}`;
+    }
+
+    // Create a new issue card
+    function createIssueCard(issueData) {
+        const issueCard = document.createElement('div');
+        issueCard.className = 'issue-card';
+        issueCard.setAttribute('data-issue-id', issueData.id);
+        
+        // Determine badge class based on status
+        let badgeClass = 'badge-warning';
+        if (issueData.status === 'In Progress') {
+            badgeClass = 'badge-info';
+        } else if (issueData.status === 'Resolved') {
+            badgeClass = 'badge-success';
+        }
+        
+        // Determine priority badge class
+        let priorityBadgeClass = 'badge-info';
+        if (issueData.priority === 'High Priority') {
+            priorityBadgeClass = 'badge-danger';
+        }
+        
+        // Determine progress class
+        let progressClass = 'progress-25';
+        if (issueData.progress === 75) {
+            progressClass = 'progress-75';
+        } else if (issueData.progress === 100) {
+            progressClass = 'progress-100';
+        }
+        
+        issueCard.innerHTML = `
+            <div class="issue-header">
+                <div>
+                    <h3 class="issue-title">${issueData.title}</h3>
+                    <p class="issue-id">#${issueData.id}</p>
+                </div>
+                <span class="badge ${badgeClass}">${issueData.status}</span>
+            </div>
+            <div class="issue-details">
+                <span class="badge badge-primary">${issueData.category}</span>
+                <span class="badge ${priorityBadgeClass}">${issueData.priority}</span>
+            </div>
+            <div class="issue-progress">
+                <div class="progress-container">
+                    <div class="progress-bar ${progressClass}"></div>
+                </div>
+                <span class="progress-text">${issueData.progress}% complete</span>
+            </div>
+            <div class="issue-footer">
+                <div class="sla-info">
+                    <i class="fas fa-clock"></i>
+                    <span>Due in ${issueData.dueDays} days</span>
+                </div>
+                <span class="text-gray-600">Reported just now</span>
+            </div>
+        `;
+        
+        // Add click event to the new card
+        issueCard.addEventListener('click', function() {
+            const issueId = this.getAttribute('data-issue-id');
+            showView('issue-details');
+            
+            // Update details view with issue data
+            document.getElementById('detail-issue-title').textContent = issueData.title;
+            document.getElementById('detail-issue-id').textContent = '#' + issueData.id;
+            document.getElementById('detail-issue-status').textContent = issueData.status;
+            document.getElementById('detail-issue-priority').textContent = issueData.priority;
+            document.getElementById('detail-issue-category').textContent = issueData.category;
+            document.getElementById('detail-issue-deadline').textContent = 'Due in ' + issueData.dueDays + ' days';
+            document.getElementById('detail-issue-progress').textContent = issueData.progress + '%';
+            
+            // Update progress bar in details view
+            const progressBar = document.querySelector('#issue-details-view .progress-bar');
+            progressBar.className = 'progress-bar';
+            progressBar.classList.add(progressClass);
+        });
+        
+        return issueCard;
+    }
+
+    // Function to mark fields as important based on method
+    function markImportantFields(method) {
+        // Reset all fields first
+        document.querySelectorAll('.form-label').forEach(label => {
+            label.classList.remove('important-field');
+        });
+        
+        // Add important class based on method
+        switch(method) {
+            case 'voice':
+            case 'photo':
+                // Find labels by their text content
+                const locationLabel = Array.from(document.querySelectorAll('.form-label')).find(el => el.textContent.includes('Location'));
+                const descriptionLabel = Array.from(document.querySelectorAll('.form-label')).find(el => el.textContent.includes('Description'));
+                const uploadLabel = Array.from(document.querySelectorAll('.form-label')).find(el => el.textContent.includes('Upload Files'));
+                
+                if (locationLabel) locationLabel.classList.add('important-field');
+                if (descriptionLabel) descriptionLabel.classList.add('important-field');
+                if (uploadLabel) uploadLabel.classList.add('important-field');
+                break;
+                
+            case 'map':
+            case 'text':
+                // Find labels by their text content
+                const titleLabel = Array.from(document.querySelectorAll('.form-label')).find(el => el.textContent.includes('Issue Title'));
+                const locationLabel2 = Array.from(document.querySelectorAll('.form-label')).find(el => el.textContent.includes('Location'));
+                const descriptionLabel2 = Array.from(document.querySelectorAll('.form-label')).find(el => el.textContent.includes('Description'));
+                
+                if (titleLabel) titleLabel.classList.add('important-field');
+                if (locationLabel2) locationLabel2.classList.add('important-field');
+                if (descriptionLabel2) descriptionLabel2.classList.add('important-field');
+                break;
+        }
+    }
+
+    // Method selection
+    document.querySelectorAll('.method-card').forEach(card => {
+        card.addEventListener('click', function() {
+            document.querySelectorAll('.method-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            this.classList.add('selected');
+            const method = this.getAttribute('data-method');
+            document.getElementById('review-method').textContent = this.querySelector('.method-name').textContent;
+            
+            // Mark important fields based on method
+            markImportantFields(method);
+
+            // Show/hide audio recorder based on method
+            const recorder = document.getElementById('audio-recorder-container');
+            if (recorder) {
+                if (method === 'voice') {
+                    recorder.classList.remove('hidden');
+                } else {
+                    recorder.classList.add('hidden');
+                }
+            }
+        });
+    });
+
+    // File upload functionality
+    function setupFileUpload() {
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.multiple = true;
+        fileInput.accept = 'image/*,video/*,.pdf';
+        fileInput.style.display = 'none';
+        document.body.appendChild(fileInput);
+        
+        const uploadArea = document.querySelector('.border-dashed');
+        const uploadButton = document.querySelector('.border-dashed .btn');
+        const fileList = document.createElement('div');
+        fileList.className = 'file-list mt-4';
+        uploadArea.parentNode.insertBefore(fileList, uploadArea.nextSibling);
+        
+        // Click handler for upload button
+        uploadButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            fileInput.click();
+        });
+        
+        // Drag and drop functionality
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('border-[#00A896]', 'bg-blue-50');
+        });
+        
+        uploadArea.addEventListener('dragleave', function() {
+            this.classList.remove('border-[#00A896]', 'bg-blue-50');
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('border-[#00A896]', 'bg-blue-50');
+            
+            if (e.dataTransfer.files.length > 0) {
+                handleFiles(e.dataTransfer.files);
+            }
+        });
+
+        let mediaRecorder;
+        let audioChunks = [];
+
+        const startRecordBtn = document.getElementById('start-record-btn');
+        const stopRecordBtn = document.getElementById('stop-record-btn');
+        const audioPlayback = document.getElementById('audio-playback');
+
+        startRecordBtn.addEventListener('click', async () => {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert('Audio recording is not supported in this browser.');
+                return;
+            }
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.addEventListener('dataavailable', event => {
+                    audioChunks.push(event.data);
+                });
+
+                mediaRecorder.addEventListener('stop', () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    audioPlayback.src = audioUrl;
+                    audioPlayback.style.display = 'block';
+
+                    // Store for review/submit
+                    window.recordedAudioBlob = audioBlob;
+                    window.recordedAudioUrl = audioUrl;
+                });
+
+                mediaRecorder.start();
+                startRecordBtn.disabled = true;
+                stopRecordBtn.disabled = false;
+            } catch (err) {
+                alert('Could not start audio recording: ' + err.message);
+            }
+        });
+
+        stopRecordBtn.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                startRecordBtn.disabled = false;
+                stopRecordBtn.disabled = true;
+            }
+        });
+
+        
+        // File input change handler
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                handleFiles(this.files);
+            }
+        });
+        
+        function handleFiles(files) {
+            fileList.innerHTML = '';
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Check file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`File "${file.name}" is too large. Maximum size is 10MB.`);
+                    continue;
+                }
+                
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item flex items-center justify-between bg-gray-50 p-3 rounded mb-2';
+                
+                const fileInfo = document.createElement('div');
+                fileInfo.className = 'flex items-center';
+                
+                // Determine icon based on file type
+                let fileIcon = 'fa-file';
+                if (file.type.startsWith('image/')) {
+                    fileIcon = 'fa-file-image';
+                } else if (file.type.startsWith('video/')) {
+                    fileIcon = 'fa-file-video';
+                } else if (file.type === 'application/pdf') {
+                    fileIcon = 'fa-file-pdf';
+                }
+                
+                fileInfo.innerHTML = `
+                    <i class="fas ${fileIcon} text-gray-500 mr-2"></i>
+                    <span class="text-sm">${file.name}</span>
+                    <span class="text-xs text-gray-500 ml-2">(${formatFileSize(file.size)})</span>
+                `;
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'text-red-500 hover:text-red-700';
+                removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                removeBtn.addEventListener('click', function() {
+                    fileItem.remove();
+                });
+                
+                fileItem.appendChild(fileInfo);
+                fileItem.appendChild(removeBtn);
+                fileList.appendChild(fileItem);
+            }
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+    }
+
+    document.getElementById('submit-issue').addEventListener('click', function() {
+        // Get form data
+        const title = document.getElementById('issue-title').value || 'New Issue';
+        const category = document.getElementById('issue-category').value || 'Other';
+        const location = document.getElementById('issue-location').value || 'Unknown Location';
+        const description = document.getElementById('issue-description').value || 'No description provided.';
+        
+        // Create new issue object
+        const newIssue = {
+            id: generateIssueId(),
+            title: title,
+            category: category,
+            location: location,
+            description: description,
+            status: 'Pending',
+            priority: 'Medium Priority',
+            progress: 25,
+            dueDays: 7,
+            reportedDate: new Date().toLocaleDateString()
+        };
+        
+        // Create the new issue card
+        const newIssueCard = createIssueCard(newIssue);
+        
+        // Remove the "no issues" message if it exists
+        const issuesList = document.querySelector('#issues-list');
+        const myIssuesList = document.querySelector('#my-issues-list');
+        
+        if (issuesList.querySelector('.card.text-center')) {
+            issuesList.innerHTML = '';
+        }
+        
+        if (myIssuesList.querySelector('.card.text-center')) {
+            myIssuesList.innerHTML = '';
+        }
+        
+        // Add the new issue to the dashboard and my issues view
+        issuesList.prepend(newIssueCard);
+        myIssuesList.prepend(newIssueCard.cloneNode(true));
+        
+        // Update stats
+        const totalIssues = document.getElementById('total-issues');
+        const pendingIssues = document.getElementById('pending-issues');
+        
+        totalIssues.textContent = parseInt(totalIssues.textContent) + 1;
+        pendingIssues.textContent = parseInt(pendingIssues.textContent) + 1;
+        
+        // Update profile stats
+        updateProfileStats(parseInt(totalIssues.textContent), 0, parseInt(pendingIssues.textContent));
+        
+        // Reset form
+        document.getElementById('issue-title').value = '';
+        document.getElementById('issue-category').value = '';
+        document.getElementById('issue-location').value = '';
+        document.getElementById('issue-description').value = '';
+        const audioPlaybackEl = document.getElementById('audio-playback');
+        if (audioPlaybackEl) {
+            audioPlaybackEl.pause();
+            audioPlaybackEl.removeAttribute('src');
+            audioPlaybackEl.style.display = 'none';
+        }
+        const reviewAudio = document.getElementById('review-audio');
+        const reviewAudioContainer = document.getElementById('review-audio-container');
+        if (reviewAudio && reviewAudioContainer) {
+            reviewAudio.pause();
+            reviewAudio.removeAttribute('src');
+            reviewAudioContainer.style.display = 'none';
+        }
+        window.recordedAudioBlob = undefined;
+        window.recordedAudioUrl = undefined;
+        
+        // Clear file list
+        const fileList = document.querySelector('.file-list');
+        if (fileList) {
+            fileList.innerHTML = '';
+        }
+        
+        // Show success message and return to dashboard
+        alert('Issue reported successfully! You will receive updates on your registered contact details.');
+        showView('dashboard');
+    });
+
+    // Profile editing functionality
+    document.getElementById('edit-profile-btn').addEventListener('click', function() {
+        // Get current values
+        const currentName = document.getElementById('view-full-name').value;
+        const currentPhone = document.getElementById('view-phone').value;
+        const currentEmail = document.getElementById('view-email').value;
+        const currentAddress = document.getElementById('view-address').value;
+        
+        // Set edit form values
+        document.getElementById('edit-full-name').value = currentName;
+        document.getElementById('edit-phone').value = currentPhone;
+        document.getElementById('edit-email').value = currentEmail;
+        document.getElementById('edit-address').value = currentAddress;
+        
+        // Switch to edit mode
+        document.getElementById('profile-view-mode').classList.add('hidden');
+        document.getElementById('profile-edit-mode').classList.remove('hidden');
+    });
+
+    document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+        // Switch back to view mode
+        document.getElementById('profile-edit-mode').classList.add('hidden');
+        document.getElementById('profile-view-mode').classList.remove('hidden');
+    });
+
+    document.getElementById('save-profile-btn').addEventListener('click', function() {
+        // Get edited values
+        const newName = document.getElementById('edit-full-name').value;
+        const newPhone = document.getElementById('edit-phone').value;
+        const newEmail = document.getElementById('edit-email').value;
+        const newAddress = document.getElementById('edit-address').value;
+        
+        // Update view mode values
+        document.getElementById('view-full-name').value = newName;
+        document.getElementById('view-phone').value = newPhone;
+        document.getElementById('view-email').value = newEmail;
+        document.getElementById('view-address').value = newAddress;
+        
+        // Update profile header
+        document.getElementById('profile-name').textContent = newName;
+        document.getElementById('profile-location').textContent = newAddress;
+        
+        // Switch back to view mode
+        document.getElementById('profile-edit-mode').classList.add('hidden');
+        document.getElementById('profile-view-mode').classList.remove('hidden');
+        
+        // Show success message
+        alert('Profile updated successfully!');
+    });
+
+    // Function to update profile stats
+    function updateProfileStats(total, resolved, pending) {
+        document.getElementById('profile-total-reports').textContent = total;
+        document.getElementById('profile-resolved-issues').textContent = resolved;
+        document.getElementById('profile-pending-issues').textContent = pending;
+        
+        // Calculate success rate
+        const successRate = total > 0 ? Math.round((resolved / total) * 100) : 0;
+        document.getElementById('profile-success-rate').textContent = successRate + '%';
+    }
+
+    // Initialize profile with empty values
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set initial empty values for profile
+        document.getElementById('view-full-name').value = '';
+        document.getElementById('view-phone').value = '';
+        document.getElementById('view-email').value = '';
+        document.getElementById('view-address').value = '';
+        
+        document.getElementById('profile-name').textContent = 'Your Name';
+        document.getElementById('profile-location').textContent = 'Your Location';
+        
+        // Add CSS for important fields
+        const style = document.createElement('style');
+        style.textContent = `
+            .important-field::after {
+                content: " *";
+                color: var(--danger);
+            }
+            
+            .file-list {
+                max-height: 200px;
+                overflow-y: auto;
+            }
+            
+            .file-item {
+                border: 1px solid #e5e7eb;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Setup file upload functionality
+        setupFileUpload();
+    });
+</script>
+</body>
+</html>

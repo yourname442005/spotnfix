@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SpotNFix Portal</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f9fc;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .logo {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .portal-selection {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fdfdfd;
+      border: 1px solid #e5e9f0;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin: 10px 0;
+      color: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 18px;
+    }
+
+    .card h3 img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .card .image img{
+      height: 25px;
+      width: 25px;
+    }
+
+    .card ul {
+      text-align: left;
+      margin: 10px 0;
+      padding-left: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #0fb588;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #0c966f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Logo -->
+    <img src="./assets/img/photo_2025-09-06_12-23-43-removebg-preview.png" alt="SpotNFix Logo" class="logo">
+    <h2>Welcome to SpotNFix</h2>
+    <div class="subtitle">Your trusted civic issue reporting and management platform</div>
+
+<div class="portal-selection">
+  <div class="card">
+    <h3><img src="./assets/img/citizen.png" alt="Citizen Logo"> Citizen Portal</h3>
+    <ul>
+      <li>Report civic issues</li>
+      <li>Track complaints</li>
+      <li>Community engagement</li>
+      <li>Real-time updates</li>
+    </ul>
+    <!-- Redirect to user_login.html -->
+<button class="btn" onclick="window.location.href='/user/user_login.html'">Access Portal</button>
+  </div>
+
+  <div class="card">
+    <h3><img src="./assets/img/muni.jpg" alt="Municipality Logo"> Municipality Admin</h3>
+    <ul>
+      <li>Issue management</li>
+      <li>Department coordination</li>
+      <li>Personnel tracking</li>
+      <li>Performance analytics</li>
+    </ul>
+    <!-- Redirect to admin_login.html -->
+    <button class="btn" onclick="window.location.href='/admin/admin_login.html'">Access Portal</button>
+  </div>
+
+  <div class="card">
+    <h3><img src="./assets/img/dm.png" alt="DM Logo" class="image"> District Magistrate</h3>
+    <ul>
+      <li>District oversight</li>
+      <li>Policy management</li>
+      <li>Strategic planning</li>
+      <li>Multi-ward analysis</li>
+    </ul>
+    <!-- Redirect to executive_login.html -->
+    <button class="btn" onclick="window.location.href='/dm/executive_login.html'">Access Portal</button>
+  </div>
+</div>
+</body>
+</html>

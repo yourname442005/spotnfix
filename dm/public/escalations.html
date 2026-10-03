@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escalations - DM Portal</title>
+    <link rel="stylesheet" href="css/escalations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h2>DM Dashboard</h2>
+                        <p>District Command Center</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-view="overview">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Overview</span>
+                    </li>
+                    <li class="nav-item" data-view="ward-analytics">
+                        <i class="fas fa-map-pin"></i>
+                        <span>Ward Analytics</span>
+                    </li>
+                    <li class="nav-item active" data-view="escalations">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Escalations</span>
+                    </li>
+                    <li class="nav-item" data-view="eo-community">
+                        <i class="fas fa-users"></i>
+                        <span>EO Community</span>
+                    </li>
+                    <li class="nav-item" data-view="ai-metrics">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Metrics</span>
+                    </li>
+                    <li class="nav-item" data-view="weather-predictions">
+                        <i class="fas fa-cloud-rain"></i>
+                        <span>Weather Predictions</span>
+                    </li>
+                    <li class="nav-item" data-view="reports">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Reports</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <div class="dashboard-header">
+                    <div>
+                        <h1>Issue Escalations</h1>
+                        <p>Critical issues requiring immediate attention</p>
+                    </div>
+                    <span class="badge critical">2 Critical Escalations</span>
+                </div>
+                
+                <div class="escalations-container">
+                    <div class="escalation-card critical">
+                        <div class="escalation-header">
+                            <div class="escalation-info">
+                                <div class="escalation-title">
+                                    <h3>Multiple water pipeline bursts in Sector 7</h3>
+                                    <span class="badge priority-critical">Critical</span>
+                                </div>
+                                <div class="escalation-details">
+                                    <span>ESC-2025-001</span>
+                                    <span>•</span>
+                                    <span>Ward 15</span>
+                                    <span>•</span>
+                                    <span>EO: Kavita Jha</span>
+                                </div>
+                            </div>
+                            <div class="escalation-status">
+                                <span class="badge status-review">In Review</span>
+                                <p class="escalation-time">2 hours ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="escalation-reason">
+                            <div class="reason-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Escalation Reason</span>
+                            </div>
+                            <p>SLA breach - 72 hours overdue</p>
+                        </div>
+                        
+                        <div class="escalation-actions">
+                            <div class="affected-citizens">
+                                <span>Affected Citizens:</span>
+                                <span class="citizen-count">450</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-outline">View Details</button>
+                                <button class="btn-primary">Take Action</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="escalation-card high">
+                        <div class="escalation-header">
+                            <div class="escalation-info">
+                                <div class="escalation-title">
+                                    <h3>Power outage affecting industrial area</h3>
+                                    <span class="badge priority-high">High</span>
+                                </div>
+                                <div class="escalation-details">
+                                    <span>ESC-2025-002</span>
+                                    <span>•</span>
+                                    <span>Ward 8</span>
+                                    <span>•</span>
+                                    <span>EO: Ravi Mehta</span>
+                                </div>
+                            </div>
+                            <div class="escalation-status">
+                                <span class="badge status-action">Action Required</span>
+                                <p class="escalation-time">4 hours ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="escalation-reason">
+                            <div class="reason-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Escalation Reason</span>
+                            </div>
+                            <p>Citizen complaints > 50</p>
+                        </div>
+                        
+                        <div class="escalation-actions">
+                            <div class="affected-citizens">
+                                <span>Affected Citizens:</span>
+                                <span class="citizen-count">1200</span>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-outline">View Details</button>
+                                <button class="btn-primary">Take Action</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-section">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>Total Escalations</h3>
+                                <div class="stat-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">12</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>Resolved This Week</h3>
+                                <div class="stat-icon success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">8</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <h3>Avg Resolution Time</h3>
+                                <div class="stat-icon time">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value">3.2 days</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/escalations.js"></script>
+</body>
+</html>

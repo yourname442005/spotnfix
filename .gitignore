@@ -1,0 +1,9 @@
+node_modules/
+.venv/
+uploads/
+__pycache__/
+*.log
+.DS_Store
+
+# Local backup files
+*.backup

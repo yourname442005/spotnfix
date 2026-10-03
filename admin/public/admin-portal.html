@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Municipality Admin Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-portal.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>Admin</h2>
+                        <p>Department • ID: N/A</p>
+                        <p class="role">Executive Officer</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-view="dashboard">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-view="issues">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Issue Management</span>
+                    </li>
+                    <li class="nav-item" data-view="community">
+                        <i class="fas fa-users"></i>
+                        <span>Ward Community</span>
+                    </li>
+                    <li class="nav-item" data-view="assignments">
+                        <i class="fas fa-user-check"></i>
+                        <span>Assignments</span>
+                    </li>
+                    <li class="nav-item" data-view="kanban">
+                        <i class="fas fa-table-columns"></i>
+                        <span>Kanban Board</span>
+                    </li>
+                    <li class="nav-item" data-view="ai-routing">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Routing</span>
+                    </li>
+                    <li class="nav-item" data-view="sla-tracker">
+                        <i class="fas fa-clock"></i>
+                        <span>SLA Tracker</span>
+                    </li>
+                    <li class="nav-item" data-view="profile">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </li>
+                    <li class="nav-item" data-view="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="text-xs text-gray-500 mb-1">Logged in as:</div>
+                    <div class="text-sm font-medium">Department</div>
+                    <div class="text-xs text-gray-600">Department</div>
+                </div>
+                
+                <div class="role-switcher">
+                    <p class="text-xs text-gray-500">Role Switcher (Demo):</p>
+                    <div class="flex space-x-2">
+                        <button class="btn btn-primary btn-sm" id="eo-role">EO</button>
+                        <button class="btn btn-outline btn-sm" id="dept-head-role">Dept Head</button>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <!-- Dashboard Content -->
+                <div id="dashboard-view" class="view active">
+                    <div class="dashboard-header">
+                        <div>
+                            <h1>Department Dashboard</h1>
+                            <p>Executive Officer - Administrative Overview</p>
+                        </div>
+                        <div class="header-badges">
+                            <span class="badge badge-success">
+                                <i class="fas fa-circle"></i>
+                                Online
+                            </span>
+                            <span class="badge badge-primary">Admin</span>
+                            <span class="badge badge-secondary">EO</span>
+                        </div>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="card stat-card">
+                            <div class="stat-header">
+                                <div>
+                                    <p class="stat-label">Total Issues</p>
+                                    <p class="stat-value">156</p>
+                                </div>
+                                <i class="fas fa-file-alt stat-icon"></i>
+                            </div>
+                            <div class="stat-footer">
+                                <i class="fas fa-trending-up text-green-500"></i>
+                                <span class="text-green-600">+12% from last week</span>
+                            </div>
+                        </div>
+
+                        <div class="card stat-card">
+                            <div class="stat-header">
+                                <div>
+                                    <p class="stat-label">Resolved</p>
+                                    <p class="stat-value text-green-600">112</p>
+                                </div>
+                                <i class="fas fa-check-circle stat-icon text-green-500"></i>
+                            </div>
+                            <div class="stat-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 72%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card stat-card">
+                            <div class="stat-header">
+                                <div>
+                                    <p class="stat-label">SLA Compliance</p>
+                                    <p class="stat-value">91%</p>
+                                </div>
+                                <i class="fas fa-clock stat-icon"></i>
+                            </div>
+                            <div class="stat-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 91%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card stat-card">
+                            <div class="stat-header">
+                                <div>
+                                    <p class="stat-label">Avg Resolution</p>
+                                    <p class="stat-value">18h</p>
+                                </div>
+                                <i class="fas fa-bolt stat-icon text-yellow-500"></i>
+                            </div>
+                            <div class="stat-footer">
+                                <span class="text-gray-600">Target: 24 hours</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Issues -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recent Issues</h2>
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-eye"></i>
+                                View All
+                            </button>
+                        </div>
+                        <div class="issues-list">
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <div class="issue-title">
+                                        <h3>Street light not working</h3>
+                                        <span class="badge badge-outline">Electrical</span>
+                                        <span class="badge badge-high">High</span>
+                                    </div>
+                                    <div class="issue-details">
+                                        <span>CIV-2025-001</span>
+                                        <span>•</span>
+                                        <span>Main Road, Sector 5</span>
+                                        <span>•</span>
+                                        <span>6 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="issue-status">
+                                    <span class="badge badge-blue">In Progress</span>
+                                    <p class="text-xs text-gray-500">SLA: 4 hours</p>
+                                </div>
+                            </div>
+                            
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <div class="issue-title">
+                                        <h3>Water logging issue</h3>
+                                        <span class="badge badge-outline">Public Works</span>
+                                        <span class="badge badge-medium">Medium</span>
+                                    </div>
+                                    <div class="issue-details">
+                                        <span>CIV-2025-002</span>
+                                        <span>•</span>
+                                        <span>Park Avenue, Sector 2</span>
+                                        <span>•</span>
+                                        <span>2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="issue-status">
+                                    <span class="badge badge-yellow">Pending</span>
+                                    <p class="text-xs text-gray-500">SLA: 2 days</p>
+                                </div>
+                            </div>
+                            
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <div class="issue-title">
+                                        <h3>Garbage collection missed</h3>
+                                        <span class="badge badge-outline">Sanitation</span>
+                                        <span class="badge badge-low">Low</span>
+                                    </div>
+                                    <div class="issue-details">
+                                        <span>CIV-2025-003</span>
+                                        <span>•</span>
+                                        <span>Residential Block A</span>
+                                        <span>•</span>
+                                        <span>1 day ago</span>
+                                    </div>
+                                </div>
+                                <div class="issue-status">
+                                    <span class="badge badge-green">
+                                        <i class="fas fa-check-circle"></i>
+                                        Resolved
+                                    </span>
+                                    <p class="text-xs text-gray-500">SLA: Completed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other views will be loaded dynamically -->
+                <div id="issues-view" class="view">
+                    <!-- Issue Management Content -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-tasks"></i> User Reports Management</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="status-filter">Filter by Status:</label>
+                                        <select id="status-filter" class="form-control">
+                                            <option value="all">All Reports</option>
+                                            <option value="pending">Pending</option>
+                                            <option value="completed">Completed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" onclick="loadUserReports()">
+                                        <i class="fas fa-refresh"></i> Refresh Reports
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="reports-container">
+                                <!-- Reports will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="community-view" class="view">
+                    <!-- Ward Community Content -->
+                </div>
+                <div id="assignments-view" class="view">
+                    <!-- Assignments Content -->
+                </div>
+                <div id="kanban-view" class="view">
+                    <!-- Kanban Board Content -->
+                </div>
+                <div id="ai-routing-view" class="view">
+                    <!-- AI Routing Content -->
+                </div>
+                <div id="sla-tracker-view" class="view">
+                    <!-- SLA Tracker Content -->
+                </div>
+                <div id="profile-view" class="view">
+                    <!-- Profile Content -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Admin Profile</h2>
+                            <button class="btn btn-outline btn-sm" id="edit-profile-btn">
+                                <i class="fas fa-edit"></i>
+                                Edit Profile
+                            </button>
+                        </div>
+                        
+                        <div id="profile-view-mode">
+                            <div class="profile-header">
+                                <div class="profile-avatar">
+                                    <i class="fas fa-user-shield"></i>
+                                </div>
+                                <div class="profile-info">
+                                    <h3 id="profile-name">Admin Name</h3>
+                                    <p id="profile-role">Executive Officer</p>
+                                    <p id="profile-id">ID: N/A</p>
+                                </div>
+                            </div>
+                            
+                            <div class="profile-details">
+                                <div class="detail-row">
+                                    <label>Full Name:</label>
+                                    <span id="view-name">Loading...</span>
+                                </div>
+                                <div class="detail-row">
+                                    <label>Email:</label>
+                                    <span id="view-email">Loading...</span>
+                                </div>
+                                <div class="detail-row">
+                                    <label>ID Number:</label>
+                                    <span id="view-idNumber">Loading...</span>
+                                </div>
+                                <div class="detail-row">
+                                    <label>Address:</label>
+                                    <span id="view-address">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="profile-edit-mode" class="hidden">
+                            <h3>Edit Profile Information</h3>
+                            <div class="form-group">
+                                <label for="edit-name">Full Name</label>
+                                <input type="text" id="edit-name" class="form-input" placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-email">Email</label>
+                                <input type="email" id="edit-email" class="form-input" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-idNumber">ID Number</label>
+                                <input type="text" id="edit-idNumber" class="form-input" placeholder="Enter your ID number">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-address">Address</label>
+                                <textarea id="edit-address" class="form-input" placeholder="Enter your address" rows="3"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-outline" id="cancel-edit-btn">Cancel</button>
+                                <button class="btn btn-primary" id="save-profile-btn">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="settings-view" class="view">
+                    <!-- Settings Content -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/admin-portal.js"></script>
+</body>
+</html>

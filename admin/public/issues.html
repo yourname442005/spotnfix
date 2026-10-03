@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue Management - Municipality Admin Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-portal.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>Admin</h2>
+                        <p>Department • ID: N/A</p>
+                        <p class="role">Executive Officer</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-view="dashboard">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item active" data-view="issues">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Issue Management</span>
+                    </li>
+                    <li class="nav-item" data-view="community">
+                        <i class="fas fa-users"></i>
+                        <span>Ward Community</span>
+                    </li>
+                    <li class="nav-item" data-view="assignments">
+                        <i class="fas fa-user-check"></i>
+                        <span>Assignments</span>
+                    </li>
+                    <li class="nav-item" data-view="kanban">
+                        <i class="fas fa-table-columns"></i>
+                        <span>Kanban Board</span>
+                    </li>
+                    <li class="nav-item" data-view="ai-routing">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Routing</span>
+                    </li>
+                    <li class="nav-item" data-view="sla-tracker">
+                        <i class="fas fa-clock"></i>
+                        <span>SLA Tracker</span>
+                    </li>
+                    <li class="nav-item" data-view="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="text-xs text-gray-500 mb-1">Logged in as:</div>
+                    <div class="text-sm font-medium">Department</div>
+                    <div class="text-xs text-gray-600">Department</div>
+                </div>
+                
+                <div class="role-switcher">
+                    <p class="text-xs text-gray-500">Role Switcher (Demo):</p>
+                    <div class="flex space-x-2">
+                        <button class="btn btn-primary btn-sm" id="eo-role">EO</button>
+                        <button class="btn btn-outline btn-sm" id="dept-head-role">Dept Head</button>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <div class="view-header">
+                    <div>
+                        <h1>Issue Management</h1>
+                        <p class="text-gray-600">Manage and track all civic issues reported in your jurisdiction</p>
+                    </div>
+                    <div class="view-actions flex items-center space-x-3">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-filter"></i>
+                            Filter
+                        </button>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-search"></i>
+                            Search
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="issues-grid">
+                    <div class="card issue-card">
+                        <div class="issue-header">
+                            <div>
+                                <div class="issue-title-section flex items-center space-x-3 mb-2">
+                                    <h3 class="text-lg font-semibold">Street light not working</h3>
+                                    <span class="badge badge-primary">
+                                        <i class="fas fa-robot"></i>
+                                        AI: 95%
+                                    </span>
+                                </div>
+                                <div class="issue-meta flex items-center space-x-2 text-sm text-gray-600">
+                                    <span class="font-medium">CIV-2025-001</span>
+                                    <span>•</span>
+                                    <span>Main Road, Sector 5</span>
+                                    <span>•</span>
+                                    <span>Via Citizen App</span>
+                                </div>
+                            </div>
+                            <div class="issue-status-section text-right">
+                                <span class="badge badge-blue mb-2">
+                                    <i class="fas fa-sync-alt"></i>
+                                    In Progress
+                                </span>
+                                <p class="text-xs text-gray-500">SLA: 4 hours</p>
+                            </div>
+                        </div>
+                        
+                        <div class="issue-details-grid grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Department</p>
+                                <p class="font-medium text-[#0B3C5D]">Electrical</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Assigned To</p>
+                                <p class="font-medium text-[#0B3C5D]">Ramesh Kumar</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Priority</p>
+                                <span class="badge badge-high">High</span>
+                            </div>
+                        </div>
+                        
+                        <div class="issue-actions flex justify-between items-center mt-6">
+                            <div class="action-buttons flex space-x-2">
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                    View Details
+                                </button>
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-user-check"></i>
+                                    Assign
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card issue-card">
+                        <div class="issue-header">
+                            <div>
+                                <div class="issue-title-section flex items-center space-x-3 mb-2">
+                                    <h3 class="text-lg font-semibold">Water logging issue</h3>
+                                    <span class="badge badge-primary">
+                                        <i class="fas fa-robot"></i>
+                                        AI: 87%
+                                    </span>
+                                </div>
+                                <div class="issue-meta flex items-center space-x-2 text-sm text-gray-600">
+                                    <span class="font-medium">CIV-2025-002</span>
+                                    <span>•</span>
+                                    <span>Park Avenue, Sector 2</span>
+                                    <span>•</span>
+                                    <span>Via WhatsApp</span>
+                                </div>
+                            </div>
+                            <div class="issue-status-section text-right">
+                                <span class="badge badge-yellow mb-2">
+                                    <i class="fas fa-clock"></i>
+                                    Pending
+                                </span>
+                                <p class="text-xs text-gray-500">SLA: 2 days</p>
+                            </div>
+                        </div>
+                        
+                        <div class="issue-details-grid grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Department</p>
+                                <p class="font-medium text-[#0B3C5D]">Public Works</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Assigned To</p>
+                                <p class="font-medium text-red-500">Unassigned</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Priority</p>
+                                <span class="badge badge-medium">Medium</span>
+                            </div>
+                        </div>
+                        
+                        <div class="issue-actions flex justify-between items-center mt-6">
+                            <div class="action-buttons flex space-x-2">
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                    View Details
+                                </button>
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-user-check"></i>
+                                    Assign
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card issue-card">
+                        <div class="issue-header">
+                            <div>
+                                <div class="issue-title-section flex items-center space-x-3 mb-2">
+                                    <h3 class="text-lg font-semibold">Garbage collection missed</h3>
+                                    <span class="badge badge-primary">
+                                        <i class="fas fa-robot"></i>
+                                        AI: 98%
+                                    </span>
+                                </div>
+                                <div class="issue-meta flex items-center space-x-2 text-sm text-gray-600">
+                                    <span class="font-medium">CIV-2025-003</span>
+                                    <span>•</span>
+                                    <span>Residential Block A</span>
+                                    <span>•</span>
+                                    <span>Via IVR Call</span>
+                                </div>
+                            </div>
+                            <div class="issue-status-section text-right">
+                                <span class="badge badge-green mb-2">
+                                    <i class="fas fa-check-circle"></i>
+                                    Resolved
+                                </span>
+                                <p class="text-xs text-gray-500">SLA: Completed</p>
+                            </div>
+                        </div>
+                        
+                        <div class="issue-details-grid grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Department</p>
+                                <p class="font-medium text-[#0B3C5D]">Sanitation</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Assigned To</p>
+                                <p class="font-medium text-[#0B3C5D]">Suresh Singh</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Priority</p>
+                                <span class="badge badge-low">Low</span>
+                            </div>
+                        </div>
+                        
+                        <div class="issue-actions flex justify-between items-center mt-6">
+                            <div class="action-buttons">
+                                <button class="btn btn-outline btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/issues.js"></script>
+</body>
+</html>

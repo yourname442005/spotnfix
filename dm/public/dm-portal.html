@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DM Portal - Civic Intelligence Platform</title>
+    <link rel="stylesheet" href="css/dm-portal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h2>DM Dashboard</h2>
+                        <p>District Command Center</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-view="overview">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Overview</span>
+                    </li>
+                    <li class="nav-item" data-view="ward-analytics">
+                        <i class="fas fa-map-pin"></i>
+                        <span>Ward Analytics</span>
+                    </li>
+                    <li class="nav-item" data-view="escalations">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Escalations</span>
+                    </li>
+                    <li class="nav-item" data-view="eo-community">
+                        <i class="fas fa-users"></i>
+                        <span>EO Community</span>
+                    </li>
+                    <li class="nav-item" data-view="ai-metrics">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Metrics</span>
+                    </li>
+                    <li class="nav-item" data-view="weather-predictions">
+                        <i class="fas fa-cloud-rain"></i>
+                        <span>Weather Predictions</span>
+                    </li>
+                    <li class="nav-item" data-view="reports">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Reports</span>
+                    </li>
+                    <li class="nav-item" data-view="profile">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <!-- Profile View -->
+                <div id="profile-view" class="view">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>DM Profile</h2>
+                            <button class="btn btn-outline btn-sm" id="edit-profile-btn">
+                                <i class="fas fa-edit"></i>
+                                Edit Profile
+                            </button>
+                        </div>
+                        
+                        <div id="profile-view-mode">
+                            <div class="profile-header">
+                                <div class="profile-avatar">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="profile-info">
+                                    <h3 id="profile-name">DM Name</h3>
+                                    <p id="profile-role">District Magistrate</p>
+                                    <p id="profile-id">ID: N/A</p>
+                                </div>
+                            </div>
+                            
+                            <div class="profile-details">
+                                <div class="detail-row">
+                                    <label>Full Name:</label>
+                                    <span id="view-name">Loading...</span>
+                                </div>
+                                <div class="detail-row">
+                                    <label>Email:</label>
+                                    <span id="view-email">Loading...</span>
+                                </div>
+                                <div class="detail-row">
+                                    <label>ID Number:</label>
+                                    <span id="view-idNumber">Loading...</span>
+                                </div>
+                                <div class="detail-row">
+                                    <label>Address:</label>
+                                    <span id="view-address">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="profile-edit-mode" class="hidden">
+                            <h3>Edit Profile Information</h3>
+                            <div class="form-group">
+                                <label for="edit-name">Full Name</label>
+                                <input type="text" id="edit-name" class="form-input" placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-email">Email</label>
+                                <input type="email" id="edit-email" class="form-input" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-idNumber">ID Number</label>
+                                <input type="text" id="edit-idNumber" class="form-input" placeholder="Enter your ID number">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-address">Address</label>
+                                <textarea id="edit-address" class="form-input" placeholder="Enter your address" rows="3"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-outline" id="cancel-edit-btn">Cancel</button>
+                                <button class="btn btn-primary" id="save-profile-btn">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Escalations View -->
+                <div id="escalations-view" class="view">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Escalated Reports</h3>
+                            <p class="text-muted">Reports pending for more than 2 days</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <button class="btn btn-primary" onclick="loadEscalatedReports()">
+                                        <i class="fas fa-refresh"></i> Refresh Reports
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="escalated-reports-container">
+                                <!-- Escalated reports will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other content will be loaded dynamically -->
+            </div>
+        </main>
+    </div>
+
+    <script src="js/dm-portal.js"></script>
+</body>
+</html>

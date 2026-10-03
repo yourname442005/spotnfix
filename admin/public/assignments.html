@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments - Municipality Admin Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-portal.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>Admin</h2>
+                        <p>Department • ID: N/A</p>
+                        <p class="role">Executive Officer</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-view="dashboard">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-view="issues">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Issue Management</span>
+                    </li>
+                    <li class="nav-item" data-view="community">
+                        <i class="fas fa-users"></i>
+                        <span>Ward Community</span>
+                    </li>
+                    <li class="nav-item active" data-view="assignments">
+                        <i class="fas fa-user-check"></i>
+                        <span>Assignments</span>
+                    </li>
+                    <li class="nav-item" data-view="kanban">
+                        <i class="fas fa-kanban"></i>
+                        <span>Kanban Board</span>
+                    </li>
+                    <li class="nav-item" data-view="ai-routing">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Routing</span>
+                    </li>
+                    <li class="nav-item" data-view="sla-tracker">
+                        <i class="fas fa-clock"></i>
+                        <span>SLA Tracker</span>
+                    </li>
+                    <li class="nav-item" data-view="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="text-xs text-gray-500 mb-1">Logged in as:</div>
+                    <div class="text-sm font-medium">Department</div>
+                    <div class="text-xs text-gray-600">Department</div>
+                </div>
+                
+                <div class="role-switcher">
+                    <p class="text-xs text-gray-500">Role Switcher (Demo):</p>
+                    <div class="flex space-x-2">
+                        <button class="btn btn-primary btn-sm" id="eo-role">EO</button>
+                        <button class="btn btn-outline btn-sm" id="dept-head-role">Dept Head</button>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <div class="view-header flex items-center justify-between">
+                    <div>
+                        <h1>Daily Assignments</h1>
+                        <p class="text-gray-600">Track all assignments made today by the Executive Officer</p>
+                    </div>
+                    <span class="badge badge-blue">
+                        <i class="fas fa-calendar"></i>
+                        Today: September 11, 2025
+                    </span>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">Total Assigned</p>
+                                <p class="stat-value">5</p>
+                            </div>
+                            <i class="fas fa-clipboard-check stat-icon"></i>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="text-gray-600">All departments</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">Completed</p>
+                                <p class="stat-value text-green-600">1</p>
+                            </div>
+                            <i class="fas fa-check-circle stat-icon text-green-500"></i>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 20%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">In Progress</p>
+                                <p class="stat-value text-blue-600">2</p>
+                            </div>
+                            <i class="fas fa-activity stat-icon text-blue-500"></i>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="text-gray-600">Active work</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">Pending</p>
+                                <p class="stat-value text-yellow-600">2</p>
+                            </div>
+                            <i class="fas fa-timer stat-icon text-yellow-500"></i>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="text-gray-600">Awaiting start</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Today's Assignments</h2>
+                        <div class="card-actions flex items-center space-x-3">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-filter"></i>
+                                Filter by Dept
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-calendar"></i>
+                                View Previous Days
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="assignments-list">
+                        <div class="card assignment-card">
+                            <div class="assignment-header">
+                                <div class="assignment-info">
+                                    <div class="assignment-title-section flex items-center space-x-3 mb-3">
+                                        <h3 class="text-lg font-semibold">Street light not working</h3>
+                                        <span class="badge badge-blue">
+                                            <i class="fas fa-sync-alt"></i>
+                                            In Progress
+                                        </span>
+                                        <span class="badge badge-high">High</span>
+                                    </div>
+                                    
+                                    <div class="assignment-meta flex items-center space-x-2 text-sm text-gray-600 mb-3">
+                                        <span class="font-medium">CIV-2025-001</span>
+                                        <span>•</span>
+                                        <span><i class="fas fa-map-marker-alt"></i> Main Road, Sector 5</span>
+                                        <span>•</span>
+                                        <span><i class="fas fa-clock"></i> Assigned at 09:30 AM</span>
+                                    </div>
+                                    
+                                    <p class="assignment-description text-gray-700 mb-4">Street light pole #45 not working. Requires bulb replacement and wiring check.</p>
+                                    
+                                    <div class="assignment-details-grid grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                        <div>
+                                            <p class="text-xs text-gray-500 mb-1">Assigned By</p>
+                                            <p class="text-sm font-medium">EO - Ramesh Kumar</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500 mb-1">Assigned To</p>
+                                            <p class="text-sm font-medium">Electrical Dept - Suresh Kumar</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500 mb-1">Est. Completion</p>
+                                            <p class="text-sm font-medium">2 hours</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="assignment-status text-right">
+                                    <div class="flex flex-col items-end space-y-2">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                            Track Progress
+                                        </button>
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-comment"></i>
+                                            Follow Up
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="assignment-progress mt-4">
+                                <div class="flex items-center justify-between text-sm mb-2">
+                                    <span class="text-gray-600">Progress</span>
+                                    <span class="font-medium">70%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 70%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card assignment-card">
+                            <div class="assignment-header">
+                                <div class="assignment-info">
+                                    <div class="assignment-title-section flex items-center space-x-3 mb-3">
+                                        <h3 class="text-lg font-semibold">Water logging issue</h3>
+                                        <span class="badge badge-yellow">
+                                            <i class="fas fa-clock"></i>
+                                            Assigned
+                                        </span>
+                                        <span class="badge badge-medium">Medium</span>
+                                    </div>
+                                    
+                                    <div class="assignment-meta flex items-center space-x-2 text-sm text-gray-600 mb-3">
+                                        <span class="font-medium">CIV-2025-002</span>
+                                        <span>•</span>
+                                        <span><i class="fas fa-map-marker-alt"></i> Park Avenue, Sector 2</span>
+                                        <span>•</span>
+                                        <span><i class="fas fa-clock"></i> Assigned at 10:15 AM</span>
+                                    </div>
+                                    
+                                    <p class="assignment-description text-gray-700 mb-4">Water accumulation due to blocked drainage. Requires cleaning and inspection.</p>
+                                    
+                                    <div class="assignment-details-grid grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                        <div>
+                                            <p class="text-xs text-gray-500 mb-1">Assigned By</p>
+                                            <p class="text-sm font-medium">EO - Ramesh Kumar</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500 mb-1">Assigned To</p>
+                                            <p class="text-sm font-medium">Public Works - Rajesh Singh</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-500 mb-1">Est. Completion</p>
+                                            <p class="text-sm font-medium">4 hours</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="assignment-status text-right">
+                                    <div class="flex flex-col items-end space-y-2">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                            Track Progress
+                                        </button>
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-comment"></i>
+                                            Follow Up
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="assignment-progress mt-4">
+                                <div class="flex items-center justify-between text-sm mb-2">
+                                    <span class="text-gray-600">Progress</span>
+                                    <span class="font-medium">0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/assignments.js"></script>
+</body>
+</html>

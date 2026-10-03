@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Metrics - DM Portal</title>
+    <link rel="stylesheet" href="css/ai-metrics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h2>DM Dashboard</h2>
+                        <p>District Command Center</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-view="overview">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Overview</span>
+                    </li>
+                    <li class="nav-item" data-view="ward-analytics">
+                        <i class="fas fa-map-pin"></i>
+                        <span>Ward Analytics</span>
+                    </li>
+                    <li class="nav-item" data-view="escalations">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Escalations</span>
+                    </li>
+                    <li class="nav-item" data-view="eo-community">
+                        <i class="fas fa-users"></i>
+                        <span>EO Community</span>
+                    </li>
+                    <li class="nav-item active" data-view="ai-metrics">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Metrics</span>
+                    </li>
+                    <li class="nav-item" data-view="weather-predictions">
+                        <i class="fas fa-cloud-rain"></i>
+                        <span>Weather Predictions</span>
+                    </li>
+                    <li class="nav-item" data-view="reports">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Reports</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <div class="dashboard-header">
+                    <div>
+                        <h1>AI System Metrics</h1>
+                        <p>Performance indicators for AI-driven functionalities</p>
+                    </div>
+                    <span class="badge success">All Systems Operational</span>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Routing Accuracy</h3>
+                            <div class="metric-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value">93.8%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 93.8%; background: linear-gradient(90deg, #0B3C5D, #00A896);"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>1.2% from last week</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Duplicate Detection</h3>
+                            <div class="metric-icon">
+                                <i class="fas fa-copy"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value">96.2%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 96.2%; background: linear-gradient(90deg, #0B3C5D, #00A896);"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>0.8% from last week</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Predictive Accuracy</h3>
+                            <div class="metric-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value">89.1%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 89.1%; background: linear-gradient(90deg, #0B3C5D, #00A896);"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span class="trend down">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>0.5% from last week</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Language Processing</h3>
+                            <div class="metric-icon">
+                                <i class="fas fa-comment"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value">91.7%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 91.7%; background: linear-gradient(90deg, #0B3C5D, #00A896);"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>1.5% from last week</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Sentiment Analysis</h3>
+                            <div class="metric-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value">87.4%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 87.4%; background: linear-gradient(90deg, #0B3C5D, #00A896);"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>0.9% from last week</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h3>Total Processed</h3>
+                            <div class="metric-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                        </div>
+                        <div class="metric-value">1,247</div>
+                        <div class="metric-footer">
+                            <span>Issues processed today</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="performance-card">
+                    <h2>AI Performance Trends</h2>
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-bar"></i>
+                            <p>7-day trend analysis showing consistent improvement in all AI metrics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="trend-stats">
+                        <div class="trend-item">
+                            <div class="trend-value positive">+2.3%</div>
+                            <div class="trend-label">Weekly Improvement</div>
+                        </div>
+                        <div class="trend-item">
+                            <div class="trend-value">99.8%</div>
+                            <div class="trend-label">System Uptime</div>
+                        </div>
+                        <div class="trend-item">
+                            <div class="trend-value positive">+1.1%</div>
+                            <div class="trend-label">Monthly Growth</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="system-status">
+                    <h2>System Components Status</h2>
+                    <div class="status-grid">
+                        <div class="status-item operational">
+                            <div class="status-header">
+                                <i class="fas fa-check-circle"></i>
+                                <h3>Routing Engine</h3>
+                            </div>
+                            <div class="status-details">
+                                <span class="status-badge">Operational</span>
+                                <p>Processing 245 requests/minute</p>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item operational">
+                            <div class="status-header">
+                                <i class="fas fa-check-circle"></i>
+                                <h3>Duplicate Detector</h3>
+                            </div>
+                            <div class="status-details">
+                                <span class="status-badge">Operational</span>
+                                <p>98.7% accuracy in last 24h</p>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item operational">
+                            <div class="status-header">
+                                <i class="fas fa-check-circle"></i>
+                                <h3>Predictive Model</h3>
+                            </div>
+                            <div class="status-details">
+                                <span class="status-badge">Operational</span>
+                                <p>89.3% prediction accuracy</p>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item warning">
+                            <div class="status-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <h3>Language Processor</h3>
+                            </div>
+                            <div class="status-details">
+                                <span class="status-badge warning">Degraded</span>
+                                <p>Processing slower than usual</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/ai-metrics.js"></script>
+</body>
+</html>

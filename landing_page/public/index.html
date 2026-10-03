@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpotNFix - Professional Civic Engagement Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    /* Professional Landing Page CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #fff;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Utility Classes */
+.gradient-primary {
+    background: linear-gradient(135deg, #0ea5e9, #0d9488);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #0ea5e9, #0d9488);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.btn-primary {
+    background: #1B4332;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+    background-color: #22bd7c ;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary.large {
+    padding: 16px 32px;
+    font-size: 18px;
+    border-radius: 12px;
+}
+
+.btn-outline {
+    background:#1B4332 ;
+    color: whitesmoke;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-outline:hover {
+    background-color: #22bd7c ;
+}
+
+.btn-outline.large {
+    padding: 16px 32px;
+    font-size: 18px;
+    border-radius: 12px;
+}
+
+.btn-outline.blue {
+    color: #2563eb;
+    border-color: #bfdbfe;
+}
+
+.btn-outline.blue:hover {
+    background-color: #eff6ff;
+}
+
+.btn-outline.emerald {
+    color: #059669;
+    border-color: #a7f3d0;
+}
+
+.btn-outline.emerald:hover {
+    background-color: #ecfdf5;
+}
+
+.btn-outline.purple {
+    color: #7c3aed;
+    border-color: #ddd6fe;
+}
+
+.btn-outline.purple:hover {
+    background-color: #f5f3ff;
+}
+
+.btn-outline.green {
+    color: #16a34a;
+    border-color: #bbf7d0;
+}
+
+.btn-outline.green:hover {
+    background-color: #f0fdf4;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #0ea5e9, #0d9488);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+.logo-text h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.logo-text p {
+    font-size: 12px;
+    color: #64748b;
+    margin: 0;
+}
+
+.three-btn{
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: none;
+}
+
+.three-btn a:hover{
+    background-color: red;
+
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-right: -55%;
+}
+
+.nav-links a {
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #0d9488;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    margin-right: -100px;
+}
+
+.report-btn {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.report-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, rgba(149, 213, 178, 0.2), rgba(239, 246, 255, 0.2)),
+                url('/landing/assets/img/background.png'); /* <-- notice leading /landing */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+
+
+.hero-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    text-align: center;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ccfbf1;
+    border: 1px solid #5eead4;
+    border-radius: 9999px;
+    padding: 8px 16px;
+    margin-bottom: 32px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f766e;
+}
+
+.hero-badge i {
+    font-size: 16px;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 24px;
+    line-height: 1.2;
+}
+
+.hero-description {
+    font-size: 20px;
+    color: #64748b;
+    max-width: 768px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+}
+
+
+/* Features Section */
+.features {
+    padding: 80px 0;
+    background-color: white;
+}
+
+.features-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 64px;
+}
+
+.section-header h2 {
+    font-size: 40px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 16px;
+}
+
+.section-header p {
+    font-size: 20px;
+    color: #64748b;
+    max-width: 768px;
+    margin: 0 auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 32px;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 24px;
+    color: white;
+}
+
+.feature-icon.purple {
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+}
+
+.feature-icon.teal {
+    background: linear-gradient(135deg, #0d9488, #06b6d4);
+}
+
+.feature-icon.emerald {
+    background: linear-gradient(135deg, #059669, #10b981);
+}
+
+.feature-icon.blue {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+}
+
+.feature-icon.orange {
+    background: linear-gradient(135deg, #f97316, #f59e0b);
+}
+
+.feature-icon.pink {
+    background: linear-gradient(135deg, #ec4899, #f43f5e);
+}
+
+.feature-card h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 16px;
+}
+
+.feature-card p {
+    font-size: 16px;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.skyblue{
+    color: rgb(0, 183, 255);
+    border-color: rgb(0, 183, 255);
+    background-color: transparent;
+}
+
+/* Access Points Section */
+.access-points {
+    padding: 80px 0;
+    background: #dbe7dd;
+};
+
+
+.access-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.access-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.access-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.access-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.access-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 24px;
+    color: white;
+}
+
+.access-icon.primary {
+    background: linear-gradient(135deg, #0ea5e9, #0d9488);
+}
+
+.access-icon.blue {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+}
+
+.access-icon.emerald {
+    background: linear-gradient(135deg, #059669, #10b981);
+}
+
+.access-icon.purple {
+    background: linear-gradient(135deg, #7c3aed, #6366f1);
+}
+
+.access-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+
+.access-card p {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 24px;
+}
+
+.access-card.small {
+    padding: 24px 16px;
+}
+
+.access-card.small i {
+    font-size: 32px;
+    margin-bottom: 16px;
+}
+
+.contact-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0d9488;
+    margin-top: 8px;
+}
+
+.additional-access {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Trust Indicators */
+.trust-indicators {
+    padding: 64px 0;
+    background-color: white;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.trust-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+    text-align: center;
+}
+
+.trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.trust-value {
+    font-size: 36px;
+    font-weight: 800;
+    color: #0ea5e9;
+    margin-bottom: 8px;
+}
+
+.trust-label {
+    font-size: 16px;
+    color: #64748b;
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(100deg, #020952, #000000);
+    color: white;
+    padding: 64px 0 32px;
+}
+
+.footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.footer-logo .logo-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+}
+
+.footer-logo .logo-text {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.footer-description {
+    color: #94a3b8;
+    margin-bottom: 24px;
+    max-width: 400px;
+    line-height: 1.6;
+}
+
+.copyright {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.footer-links h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: white;
+}
+
+.footer-links ul {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #0d9488;
+}
+
+.footer-bottom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    border-top: 1px solid #334155;
+    padding-top: 32px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 14px;
+}
+.jharkhand{
+    padding-left: 0px;
+}
+
+.nav-links a,
+.three-btn {
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    background: none;      /* remove button bg */
+    border: none;          /* remove default button border */
+    cursor: pointer;       /* so it looks clickable */
+    font-size: 16px;
+    padding: 0;            /* remove button padding */
+}
+
+.nav-links a:hover,
+.three-btn:hover {
+    color: #0d9488;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 40px;
+    }
+    
+    .hero-description {
+        font-size: 18px;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 16px;
+    }
+    
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #e2e8f0;
+    }
+    
+    .hero {
+        padding: 60px 0;
+    }
+    
+    .hero-title {
+        font-size: 32px;
+    }
+    
+    .hero-description {
+        font-size: 16px;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .section-header h2 {
+        font-size: 32px;
+    }
+    
+    .section-header p {
+        font-size: 18px;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .hero-title {
+        font-size: 28px;
+    }
+    
+    .stats-value {
+        font-size: 28px;
+    }
+    
+    .section-header h2 {
+        font-size: 28px;
+    }
+    
+    .feature-card {
+        padding: 24px;
+    }
+}
+
+</style>
+<body>
+
+    <!-- Professional Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/landing/assets/img/Government_of_Jharkhand_logo-removebg-preview.png" 
+     alt="Jharkhand Logo" class="jharkhand"
+     style="height:60px; margin-left: -150px;">
+
+     <img src="/landing/assets/img/photo_2025-09-06_12-23-43-removebg-preview.png" 
+                    alt="SpotNFix Logo" class="sportNfix"
+                    style="height:75px; margin-top: 0px; margin-right: -25px;">
+
+            <div class="logo-text">
+                
+                <h1>SpotNFix</h1>
+                <p>Civic Engagement Platform</p>
+            </div>
+        </div>
+
+
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#about">About</a>
+                <button class="three-btn">
+                    Public Dashboard
+                </button>
+            </div>
+
+            <div class="nav-actions">
+                <!-- <button class="three-btn">
+                    Report New Issue
+                </button> -->
+                
+                <button class="btn-outline small login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-badge">
+                <i class="fas fa-sparkles"></i>
+                <span>Powered by Advanced AI • Government of Jharkhand</span>
+            </div>
+            
+            <h1 class="hero-title">
+                Transforming Civic
+                <span class="gradient-text">Engagement in Jharkhand</span>
+            </h1>
+            
+            <p class="hero-description">
+                Report civic issues, track progress in real-time, and collaborate with your community. 
+                Experience transparent, efficient, and AI-powered governance.
+            </p>
+            
+            <div class="hero-buttons">
+                <button class="btn-primary large">
+                    <i class="fas fa-globe"></i>
+                    Start Reporting Issues
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                
+                <button class="btn-outline large">
+                    <i class="fas fa-chart-bar"></i>
+                    View Public Dashboard
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="features-container">
+            <div class="section-header">
+                <h2>Why Choose SpotNFix?</h2>
+                <p>Built with cutting-edge technology to serve citizens and government efficiently</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon purple">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Classification</h3>
+                    <p>Advanced machine learning automatically categorizes and routes issues to the right departments with 94.7% accuracy.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon teal">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Real-Time Tracking</h3>
+                    <p>Track your issues from submission to resolution with live updates and transparent timelines.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon emerald">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Engagement</h3>
+                    <p>Connect with your community, vote on issues, and collaborate on solutions that matter.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Government Grade Security</h3>
+                    <p>Enterprise-level security ensuring your data is protected with government-grade encryption.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon orange">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Analytics & Insights</h3>
+                    <p>Comprehensive dashboards providing insights into civic performance and community trends.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon pink">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Multi-Channel Access</h3>
+                    <p>Report issues via web, mobile app, WhatsApp, or phone - whatever works best for you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Access Points Section -->
+    <section class="access-points">
+        <div class="access-container">
+            <div class="section-header">
+                <h2>Multiple Access Points</h2>
+                <p>Choose the platform that works best for you</p>
+            </div>
+
+            <div class="access-grid">
+                <div class="access-card">
+                    <div class="access-icon primary skyblue">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Citizen Web Portal</h3>
+                    <p>Full-featured web interface for detailed reporting</p>
+                    <button class="btn-outline skyblue">Access Portal</button>
+                </div>
+
+                <div class="access-card">
+                    <div class="access-icon blue">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile App</h3>
+                    <p>Quick reporting on the go with location services</p>
+                    <button class="btn-outline blue">Try Mobile View</button>
+                </div>
+
+                <div class="access-card">
+                    <div class="access-icon emerald">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Municipality Admin</h3>
+                    <p>Administrative dashboard for issue management</p>
+                    <button class="btn-outline emerald">Admin Login</button>
+                </div>
+
+                <div class="access-card">
+                    <div class="access-icon purple">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>District Magistrate</h3>
+                    <p>High-level analytics and oversight dashboard</p>
+                    <button class="btn-outline purple">DM Login</button>
+                </div>
+            </div>
+
+            <!-- Additional Access Methods -->
+            <div class="additional-access">
+                <div class="access-card small">
+                    <i class="fas fa-phone text-teal-600"></i>
+                    <h4>Phone Reporting</h4>
+                    <p>Call our 24/7 helpline</p>
+                    <p class="contact-number">1800-XXX-XXXX</p>
+                </div>
+
+                <div class="access-card small">
+                    <i class="fab fa-whatsapp text-green-600"></i>
+                    <h4>WhatsApp</h4>
+                    <p>Report via WhatsApp</p>
+                    <button class="btn-outline green">Start Chat</button>
+                </div>
+
+                <div class="access-card small">
+                    <i class="fas fa-globe text-blue-600"></i>
+                    <h4>Public API</h4>
+                    <p>Integration for developers</p>
+                    <button class="btn-outline blue">View Docs</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Indicators -->
+    <section class="trust-indicators">
+        <div class="trust-container">
+            <div class="trust-item">
+                <div class="trust-value">99.9%</div>
+                <div class="trust-label">System Uptime</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-value">50K+</div>
+                <div class="trust-label">Issues Resolved</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-value">25+</div>
+                <div class="trust-label">Districts Connected</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-value">4.8★</div>
+                <div class="trust-label">Citizen Satisfaction</div>
+            </div>
+        </div>
+    </section>
+    <!-- Professional Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span class="logo-text">SpotNFix</span>
+                </div>
+                <p class="footer-description">
+                    Transforming civic engagement through technology. A transparent, efficient, and citizen-centric platform for the Government of Jharkhand.
+                </p>
+                <div class="copyright">
+                    © 2024 Government of Jharkhand. All rights reserved.
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="link-group">
+                    <h4>Government</h4>
+                    <ul>
+                        <li><a href="#">Jharkhand Portal</a></li>
+                        <li><a href="#">Digital India</a></li>
+                        <li><a href="#">RTI Portal</a></li>
+                        <li><a href="#">Grievance Portal</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>Designed and developed with ❤️ for the citizens of Jharkhand</p>
+        </div>
+    </footer>
+
+<script>
+    // Professional Landing Page JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Redirect to user_login.html when "Report New Issue" button clicked
+    const reportNewIssueBtn = document.querySelector('.report-btn');
+    if (reportNewIssueBtn) {
+        reportNewIssueBtn.addEventListener('click', function() {
+            window.location.href = '/user/user_login.html';
+        });
+    }
+    
+    // Redirect to welcome_page.html when "Login" button clicked
+    const loginBtn = document.querySelector('.login-btn');
+    if (loginBtn) {
+        loginBtn.addEventListener('click', function() {
+            window.location.href = '/landing/welcome_page.html';
+        });
+    }
+    
+    // Scroll to "Why Choose SpotNFix?" section when Features nav link clicked
+    const featuresNavLink = document.querySelector('.nav-links a[href="#features"]');
+    if (featuresNavLink) {
+        featuresNavLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const featuresSection = document.querySelector('#features');
+            if (featuresSection) {
+                featuresSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+    
+    // Redirect to user_login.html when "Start Reporting Issues" button clicked
+    const startReportingBtn = document.querySelector('.hero-buttons .btn-primary.large');
+    if (startReportingBtn) {
+        startReportingBtn.addEventListener('click', function() {
+            window.location.href = '/user/user_login.html';
+        });
+    }
+    
+    // Access Portal buttons redirection
+    const accessCards = document.querySelectorAll('.access-card');
+    accessCards.forEach(card => {
+        const button = card.querySelector('button');
+        if (!button) return;
+
+        button.addEventListener('click', function() {
+            const title = card.querySelector('h3')?.textContent.trim();
+            if (title === 'Citizen Web Portal') {
+                window.location.href = '/user/user_login.html';
+            } else if (title === 'Municipality Admin') {
+                window.location.href = '/admin/admin_login.html';
+            } else if (title === 'District Magistrate') {
+                window.location.href = '/dm/executive_login.html';
+            } else {
+                alert(`Accessing: ${button.textContent.trim()}`);
+            }
+        });
+    });
+    
+    // Navigation links other than Features
+    const navLinks = document.querySelectorAll('.nav-links a:not([href="#features"])');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = this.getAttribute('href');
+            alert(`Navigating to section: ${target}`);
+            // Implement scroll or navigation as needed
+        });
+    });
+    
+    console.log('Professional Landing Page loaded with updated navigation');
+});
+</script>
+</body>
+</html>
+</html>

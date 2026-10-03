@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Predictions - DM Portal</title>
+    <link rel="stylesheet" href="css/weather-predictions.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h2>DM Dashboard</h2>
+                        <p>District Command Center</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-view="overview">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Overview</span>
+                    </li>
+                    <li class="nav-item" data-view="ward-analytics">
+                        <i class="fas fa-map-pin"></i>
+                        <span>Ward Analytics</span>
+                    </li>
+                    <li class="nav-item" data-view="escalations">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Escalations</span>
+                    </li>
+                    <li class="nav-item" data-view="eo-community">
+                        <i class="fas fa-users"></i>
+                        <span>EO Community</span>
+                    </li>
+                    <li class="nav-item" data-view="ai-metrics">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Metrics</span>
+                    </li>
+                    <li class="nav-item active" data-view="weather-predictions">
+                        <i class="fas fa-cloud-rain"></i>
+                        <span>Weather Predictions</span>
+                    </li>
+                    <li class="nav-item" data-view="reports">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Reports</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <div class="dashboard-header">
+                    <div>
+                        <h1>Weather & Issue Predictions</h1>
+                        <p>AI-powered civic issue forecasting based on weather patterns</p>
+                    </div>
+                    <div class="header-badges">
+                        <span class="badge alert">Heat Wave Alert</span>
+                        <span class="badge success">AI Predictions Active</span>
+                    </div>
+                </div>
+                
+                <div class="current-weather">
+                    <div class="weather-header">
+                        <div>
+                            <h2>Ranchi, Jharkhand</h2>
+                            <p>Current Conditions</p>
+                        </div>
+                        <div class="temperature">
+                            <div class="temp-value">42°C</div>
+                            <div class="condition">Hot</div>
+                        </div>
+                    </div>
+                    
+                    <div class="weather-details">
+                        <div class="detail-item">
+                            <i class="fas fa-tint"></i>
+                            <div>
+                                <p class="detail-label">Humidity</p>
+                                <p class="detail-value">65%</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-wind"></i>
+                            <div>
+                                <p class="detail-label">Wind</p>
+                                <p class="detail-value">12 km/h</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-sun"></i>
+                            <div>
+                                <p class="detail-label">UV Index</p>
+                                <p class="detail-value">9/10</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="predictions-grid">
+                    <div class="prediction-card">
+                        <div class="prediction-header">
+                            <div>
+                                <h3>Today</h3>
+                                <p class="condition-text">Extreme Heat</p>
+                            </div>
+                            <div class="temp-display">
+                                <div class="temp-value">42°C</div>
+                                <i class="fas fa-thermometer-full"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="predicted-issues">
+                            <h4>Predicted Issues:</h4>
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <p class="issue-name">Water Issues</p>
+                                    <p class="issue-count">Est. 89 cases</p>
+                                </div>
+                                <span class="confidence-badge">94%</span>
+                            </div>
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <p class="issue-name">Power Outages</p>
+                                    <p class="issue-count">Est. 45 cases</p>
+                                </div>
+                                <span class="confidence-badge">87%</span>
+                            </div>
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <p class="issue-name">Road Damage</p>
+                                    <p class="issue-count">Est. 12 cases</p>
+                                </div>
+                                <span class="confidence-badge">72%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prediction-card">
+                        <div class="prediction-header">
+                            <div>
+                                <h3>Tomorrow</h3>
+                                <p class="condition-text">Heat Wave</p>
+                            </div>
+                            <div class="temp-display">
+                                <div class="temp-value">44°C</div>
+                                <i class="fas fa-thermometer-full"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="predicted-issues">
+                            <h4>Predicted Issues:</h4>
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <p class="issue-name">Water Issues</p>
+                                    <p class="issue-count">Est. 112 cases</p>
+                                </div>
+                                <span class="confidence-badge">96%</span>
+                            </div>
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <p class="issue-name">Power Outages</p>
+                                    <p class="issue-count">Est. 67 cases</p>
+                                </div>
+                                <span class="confidence-badge">91%</span>
+                            </div>
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <p class="issue-name">Health Emergency</p>
+                                    <p class="issue-count">Est. 23 cases</p>
+                                </div>
+                                <span class="confidence-badge">78%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="prediction-card">
+                        <div class="prediction-header">
+                            <div>
+                                <h3>Day 3</h3>
+                                <p class="condition-text">Thunderstorms</p>
+                            </div>
+                            <div class="temp-display">
+                                <div class="temp-value">38°C</div>
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="predicted-issues">
+                            <h4>Predicted Issues:</h4>
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <p class="issue-name">Waterlogging</p>
+                                    <p class="issue-count">Est. 78 cases</p>
+                                </div>
+                                <span class="confidence-badge">93%</span>
+                            </div>
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <p class="issue-name">Tree Falls</p>
+                                    <p class="issue-count">Est. 34 cases</p>
+                                </div>
+                                <span class="confidence-badge">85%</span>
+                            </div>
+                            <div class="issue-item">
+                                <div class="issue-info">
+                                    <p class="issue-name">Power Issues</p>
+                                    <p class="issue-count">Est. 56 cases</p>
+                                </div>
+                                <span class="confidence-badge">88%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recommendations">
+                    <h2>AI Recommendations</h2>
+                    <div class="recommendations-grid">
+                        <div class="recommendation-card alert">
+                            <div class="recommendation-header">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Immediate Actions</span>
+                            </div>
+                            <ul>
+                                <li>Deploy additional water tankers in high-density areas</li>
+                                <li>Activate emergency cooling centers</li>
+                                <li>Alert electrical teams for transformer monitoring</li>
+                                <li>Issue heat wave warnings to citizens</li>
+                            </ul>
+                        </div>
+                        <div class="recommendation-card resource">
+                            <div class="recommendation-header">
+                                <i class="fas fa-heartbeat"></i>
+                                <span>Resource Allocation</span>
+                            </div>
+                            <ul>
+                                <li>Increase staffing for water & electrical departments</li>
+                                <li>Prepare emergency medical response teams</li>
+                                <li>Stock additional repair materials</li>
+                                <li>Coordinate with state power board</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/weather-predictions.js"></script>
+</body>
+</html>

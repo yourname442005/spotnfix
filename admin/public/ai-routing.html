@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Routing - Municipality Admin Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-portal.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>Admin</h2>
+                        <p>Department • ID: N/A</p>
+                        <p class="role">Executive Officer</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-view="dashboard">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-view="issues">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Issue Management</span>
+                    </li>
+                    <li class="nav-item" data-view="community">
+                        <i class="fas fa-users"></i>
+                        <span>Ward Community</span>
+                    </li>
+                    <li class="nav-item" data-view="assignments">
+                        <i class="fas fa-user-check"></i>
+                        <span>Assignments</span>
+                    </li>
+                    <li class="nav-item" data-view="kanban">
+                        <i class="fas fa-kanban"></i>
+                        <span>Kanban Board</span>
+                    </li>
+                    <li class="nav-item active" data-view="ai-routing">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Routing</span>
+                    </li>
+                    <li class="nav-item" data-view="sla-tracker">
+                        <i class="fas fa-clock"></i>
+                        <span>SLA Tracker</span>
+                    </li>
+                    <li class="nav-item" data-view="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="text-xs text-gray-500 mb-1">Logged in as:</div>
+                    <div class="text-sm font-medium">Department</div>
+                    <div class="text-xs text-gray-600">Department</div>
+                </div>
+                
+                <div class="role-switcher">
+                    <p class="text-xs text-gray-500">Role Switcher (Demo):</p>
+                    <div class="flex space-x-2">
+                        <button class="btn btn-primary btn-sm" id="eo-role">EO</button>
+                        <button class="btn btn-outline btn-sm" id="dept-head-role">Dept Head</button>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <div class="view-header">
+                    <div>
+                        <h1>AI Routing System</h1>
+                        <p>Intelligent issue classification and assignment</p>
+                    </div>
+                    <div class="view-actions">
+                        <span class="badge badge-success">AI Active</span>
+                        <button class="btn btn-outline">
+                            Manual Override
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">Routing Accuracy</p>
+                                <p class="stat-value">94.2%</p>
+                            </div>
+                            <i class="fas fa-robot stat-icon"></i>
+                        </div>
+                        <div class="stat-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 94.2%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">Auto-Assigned Today</p>
+                                <p class="stat-value">47</p>
+                            </div>
+                            <i class="fas fa-bolt stat-icon text-yellow-500"></i>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="text-gray-600">Manual: 8 cases</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card stat-card">
+                        <div class="stat-header">
+                            <div>
+                                <p class="stat-label">Avg Confidence</p>
+                                <p class="stat-value">91.7%</p>
+                            </div>
+                            <i class="fas fa-chart-bar stat-icon"></i>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="text-gray-600">Threshold: 85%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Pending AI Routing Suggestions</h2>
+                    <div class="ai-suggestions">
+                        <div class="ai-suggestion">
+                            <div class="suggestion-header">
+                                <div>
+                                    <h3>Pothole on main street</h3>
+                                    <p class="text-sm text-gray-600">CIV-2025-004</p>
+                                </div>
+                                <span class="badge badge-primary">94% Confidence</span>
+                            </div>
+                            
+                            <div class="suggestion-details">
+                                <h4>Suggested: Road Maintenance</h4>
+                                <p>Keywords: pothole, street, road damage. Location analysis confirms road maintenance jurisdiction.</p>
+                            </div>
+                            
+                            <div class="suggestion-footer">
+                                <span class="text-sm text-gray-500">Currently: Unassigned</span>
+                                <div class="suggestion-actions">
+                                    <button class="btn btn-outline btn-reject">Reject</button>
+                                    <button class="btn btn-primary">Accept & Assign</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-suggestion">
+                            <div class="suggestion-header">
+                                <div>
+                                    <h3>Transformer making noise</h3>
+                                    <p class="text-sm text-gray-600">CIV-2025-005</p>
+                                </div>
+                                <span class="badge badge-primary">96% Confidence</span>
+                            </div>
+                            
+                            <div class="suggestion-details">
+                                <h4>Suggested: Electrical Department</h4>
+                                <p>Keywords: transformer, electrical noise, power issues. Technical classification high confidence.</p>
+                            </div>
+                            
+                            <div class="suggestion-footer">
+                                <span class="text-sm text-gray-500">Currently: Unassigned</span>
+                                <div class="suggestion-actions">
+                                    <button class="btn btn-outline btn-reject">Reject</button>
+                                    <button class="btn btn-primary">Accept & Assign</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/ai-routing.js"></script>
+</body>
+</html>

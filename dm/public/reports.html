@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - DM Portal</title>
+    <link rel="stylesheet" href="css/reports.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h2>DM Dashboard</h2>
+                        <p>District Command Center</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item" data-view="overview">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Overview</span>
+                    </li>
+                    <li class="nav-item" data-view="ward-analytics">
+                        <i class="fas fa-map-pin"></i>
+                        <span>Ward Analytics</span>
+                    </li>
+                    <li class="nav-item" data-view="escalations">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Escalations</span>
+                    </li>
+                    <li class="nav-item" data-view="eo-community">
+                        <i class="fas fa-users"></i>
+                        <span>EO Community</span>
+                    </li>
+                    <li class="nav-item" data-view="ai-metrics">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Metrics</span>
+                    </li>
+                    <li class="nav-item" data-view="weather-predictions">
+                        <i class="fas fa-cloud-rain"></i>
+                        <span>Weather Predictions</span>
+                    </li>
+                    <li class="nav-item active" data-view="reports">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Reports</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Portal
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content-area">
+                <div class="dashboard-header">
+                    <div>
+                        <h1>Reports</h1>
+                        <p>Comprehensive analytics and performance reports</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-primary">
+                            <i class="fas fa-download"></i>
+                            Export Report
+                        </button>
+                        <button class="btn-outline">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="report-type">Report Type</label>
+                        <select id="report-type">
+                            <option value="performance">Performance Report</option>
+                            <option value="sla">SLA Compliance Report</option>
+                            <option value="resolution">Resolution Time Report</option>
+                            <option value="citizen">Citizen Satisfaction Report</option>
+                            <option value="resource">Resource Allocation Report</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="time-period">Time Period</label>
+                        <select id="time-period">
+                            <option value="this-week">This Week</option>
+                            <option value="this-month">This Month</option>
+                            <option value="last-quarter">Last Quarter</option>
+                            <option value="this-year">This Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="ward-filter">Ward</label>
+                        <select id="ward-filter">
+                            <option value="all">All Wards</option>
+                            <option value="ward-1">Ward 1</option>
+                            <option value="ward-5">Ward 5</option>
+                            <option value="ward-12">Ward 12</option>
+                            <option value="ward-18">Ward 18</option>
+                            <option value="ward-23">Ward 23</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="district-filter">District</label>
+                        <select id="district-filter">
+                            <option value="all">All Districts</option>
+                            <option value="central">Central District</option>
+                            <option value="north">North District</option>
+                            <option value="east">East District</option>
+                            <option value="west">West District</option>
+                            <option value="south">South District</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="report-summary">
+                    <div class="summary-grid">
+                        <div class="summary-card">
+                            <div class="summary-header">
+                                <h3>Total Issues</h3>
+                                <div class="summary-icon">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                            </div>
+                            <div class="summary-value">1,247</div>
+                            <div class="summary-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12% from last period</span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <div class="summary-header">
+                                <h3>Resolved Issues</h3>
+                                <div class="summary-icon success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                            <div class="summary-value">1,102</div>
+                            <div class="summary-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8% from last period</span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <div class="summary-header">
+                                <h3>SLA Compliance</h3>
+                                <div class="summary-icon sla">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                            </div>
+                            <div class="summary-value">89%</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 89%; background: linear-gradient(90deg, #0B3C5D, #00A896);"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-card">
+                            <div class="summary-header">
+                                <h3>Avg Resolution Time</h3>
+                                <div class="summary-icon time">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            <div class="summary-value">2.1 days</div>
+                            <div class="summary-change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>0.3 days from last period</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-content">
+                    <div class="report-card">
+                        <div class="card-header">
+                            <h2>Ward Performance Report</h2>
+                            <div class="card-actions">
+                                <button class="btn-outline">
+                                    <i class="fas fa-chart-bar"></i>
+                                    View Chart
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Ward</th>
+                                        <th>District</th>
+                                        <th>Total Issues</th>
+                                        <th>Resolved</th>
+                                        <th>Pending</th>
+                                        <th>Escalated</th>
+                                        <th>SLA Compliance</th>
+                                        <th>Avg Resolution Time</th>
+                                        <th>Predicted Risk Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ward 1</td>
+                                        <td>Central District</td>
+                                        <td>156</td>
+                                        <td>142</td>
+                                        <td>9</td>
+                                        <td>5</td>
+                                        <td>
+                                            <div class="sla-progress">
+                                                <span>94%</span>
+                                                <div class="progress-small">
+                                                    <div class="progress-fill-small" style="width: 94%; background-color: #10B981;"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>1.8 days</td>
+                                        <td>
+                                            <div class="risk-score low">32</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ward 5</td>
+                                        <td>North District</td>
+                                        <td>187</td>
+                                        <td>168</td>
+                                        <td>12</td>
+                                        <td>7</td>
+                                        <td>
+                                            <div class="sla-progress">
+                                                <span>92%</span>
+                                                <div class="progress-small">
+                                                    <div class="progress-fill-small" style="width: 92%; background-color: #10B981;"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>2.1 days</td>
+                                        <td>
+                                            <div class="risk-score low">45</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ward 12</td>
+                                        <td>East District</td>
+                                        <td>134</td>
+                                        <td>127</td>
+                                        <td>4</td>
+                                        <td>3</td>
+                                        <td>
+                                            <div class="sla-progress">
+                                                <span>96%</span>
+                                                <div class="progress-small">
+                                                    <div class="progress-fill-small" style="width: 96%; background-color: #10B981;"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>1.5 days</td>
+                                        <td>
+                                            <div class="risk-score low">42</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ward 18</td>
+                                        <td>West District</td>
+                                        <td>203</td>
+                                        <td>168</td>
+                                        <td>28</td>
+                                        <td>18</td>
+                                        <td>
+                                            <div class="sla-progress">
+                                                <span>82%</span>
+                                                <div class="progress-small">
+                                                    <div class="progress-fill-small" style="width: 82%; background-color: #F59E0B;"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>3.2 days</td>
+                                        <td>
+                                            <div class="risk-score high">89</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ward 23</td>
+                                        <td>South District</td>
+                                        <td>156</td>
+                                        <td>149</td>
+                                        <td>4</td>
+                                        <td>4</td>
+                                        <td>
+                                            <div class="sla-progress">
+                                                <span>96%</span>
+                                                <div class="progress-small">
+                                                    <div class="progress-fill-small" style="width: 96%; background-color: #10B981;"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>1.7 days</td>
+                                        <td>
+                                            <div class="risk-score low">51</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-actions">
+                    <button class="btn-primary">
+                        <i class="fas fa-file-pdf"></i>
+                        Generate PDF Report
+                    </button>
+                    <button class="btn-outline">
+                        <i class="fas fa-file-excel"></i>
+                        Export to Excel
+                    </button>
+                    <button class="btn-outline">
+                        <i class="fas fa-share-alt"></i>
+                        Share Report
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/reports.js"></script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Government of Jharkhand - Register</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f9f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .top-header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        background-color: black;
+        padding: 10px 20px;
+        /* gap: 10px; */
+    }
+
+    .header-right {
+        display: flex;
+        flex-direction: row; /* Stack buttons vertically */
+        gap: 8px;
+        align-items:center; /* Align to right */
+}
+
+.header-btn.login-btn {
+    position: relative;
+    top: -8px;
+}
+
+.header-btn {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px 12px;
+}
+
+.header-btn:hover {
+  background-color: black;
+}
+
+    /* Translate dropdown */
+    .translate-container {
+    position: relative;
+    display: inline-block;
+    }
+
+    .translate-options {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 100px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
+    z-index: 1;
+    }
+
+    .translate-options a {
+    display: block;
+    padding: 8px 12px;
+    color: black;
+    text-decoration: none;
+    }
+
+    .translate-options a:hover {
+    background-color: #f0f0f0;
+    }
+
+    .translate-container:hover .translate-options {
+    display: block;
+    }
+
+
+    /* Logo and title section */
+    .banner {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: white;
+      padding: 15px 20px;
+    }
+    .banner img {
+      height: 70px;
+      margin-right: 15px;
+    }
+    .banner-text{
+        flex-grow: 1;
+    }
+    .right-logo{
+        align-items: right;
+        margin-right: 100px;
+    }
+    .banner h1 {
+      font-size: 22px;
+      margin: 0;
+      font-weight: bold;
+      color: #000;
+      margin-left: -25px;
+    }
+
+    .banner p {
+      margin: 0;
+      font-size: 14px;
+      color: #333;
+      margin-left: -20px;
+    }
+
+    /* Register box */
+    .register-container {
+      max-width: 420px;
+      margin: 40px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .register-container h2 {
+      text-align: center;
+      color: #006400;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .captcha-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .captcha-box {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .captcha-text {
+      font-weight: bold;
+      color: #006400;
+      font-size: 16px;
+      white-space: nowrap;
+    }
+
+    #captchaAnswer {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .refresh-btn {
+      width: 80px;
+      margin-left: 10px;
+      background-color: #e6f2e6;
+      border: 1px solid #006400;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      color: #006400;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .refresh-btn:hover {
+      background-color: #d0ebd0;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #006400;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004d00;
+    }
+
+    .alert-container {
+    max-width: 420px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    background-color: #fff3cd; /* light yellow background for alert */
+    border-left: 5px solid #ffcc00; /* left border for emphasis */
+    border-radius: 6px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #856404;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .alert-symbol {
+    font-size: 20px;
+    line-height: 1;
+    margin-top: 2px;
+    }
+
+    .alert-text {
+    flex: 1;
+    }
+
+        /* Spinner style */
+    .spinner {
+      border: 4px solid #f3f3f3; /* Light grey */
+      border-top: 4px solid #006400; /* Green */
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+
+
+  </style>
+</head>
+<body>
+
+<header class="top-header">
+    <div class="header-left">
+        <!-- You can put contact/info here if needed -->
+    </div>
+    <div class="header-right">
+        <button class="header-btn login-btn" onclick="window.location.href='admin_login.html'">Login</button>
+        <div class="translate-container">
+        <button class="header-btn">Translate ▼</button>
+        <div class="translate-options">
+            <a href="#" onclick="setLanguage('hi')">हिन्दी</a>
+            <a href="#" onclick="setLanguage('en')">English</a>
+        </div>
+        </div>
+    </div>
+</header>
+
+  <!-- Banner with logo and title -->
+  <div class="banner">
+        <img src="./assets/img/Government_of_Jharkhand_logo-removebg-preview.png" alt="Jharkhand Logo">
+
+    <div class="banner-text">
+      <h1 data-translate="title">GOVERNMENT OF JHARKHAND</h1>
+     <p data-translate="subtitle">Official website of the State</p>
+    </div>
+
+        <img src="./assets/img/photo_2025-09-06_12-23-43-removebg-preview.png" alt="sportNfix" class="right-logo">
+
+  </div>
+    <!-- Black horizontal line -->
+  <hr style="border: 1px solid black; margin: 0;">
+
+  <!-- Register Box -->
+  <div class="register-container">
+    <h2 data-translate="formTitle">Admin Registration</h2>
+    <form id="registerForm" onsubmit="event.preventDefault(); registerAdmin();">
+      <label for="name" data-translate="nameLabel">Full Name</label>
+<input type="text" id="name" placeholder="Enter full name" required data-translate-placeholder="namePlaceholder">
+
+      <label for="idNumber" data-translate="idLabel">ID Number</label>
+<input type="text" id="idNumber" placeholder="Enter ID number" required data-translate-placeholder="idPlaceholder">
+
+
+      <label for="email" data-translate="emailLabel">Email</label>
+<input type="email" id="email" placeholder="Enter email" required data-translate-placeholder="emailPlaceholder">
+
+      <label for="address" data-translate="addressLabel">Address</label>
+<textarea id="address" rows="3" placeholder="Enter your address" required data-translate-placeholder="addressPlaceholder"></textarea>
+
+      <!-- Captcha with refresh -->
+      <label for="captcha" data-translate="captchaLabel">Captcha</label>
+<div class="captcha-row">
+  <div class="captcha-box">
+    <span class="captcha-text" id="captchaQuestion"></span>
+    <input type="text" 
+           id="captchaAnswer" 
+           placeholder="Enter sum" 
+           required 
+           data-translate-placeholder="captchaPlaceholder">
+  </div>
+  <button type="button" 
+          class="refresh-btn" 
+          data-translate="refreshBtn" 
+          onclick="generateCaptcha()">↻ Refresh</button>
+</div>
+      <label for="password" data-translate="passwordLabel">Password</label>
+      <input type="password" id="password" placeholder="Enter password" required data-translate-placeholder="passwordPlaceholder">
+
+      <button type="submit" data-translate="registerBtn">Register</button>
+    </form>
+  </div>
+
+  <!-- Spinner and success message container -->
+<div id="loadingContainer" style="display:none; text-align:center; margin-top:10px;">
+    <div class="spinner"></div>
+    <div id="successMessage" style="display:none; color:green; font-weight:bold; margin-top:10px;">
+        Registration Successful!
+    </div>
+</div>
+
+  <!-- Important Alert Container -->
+    <div class="alert-container">
+    <span class="alert-symbol">❗</span>
+    <span class="alert-text"><strong>Important:</strong> False or malicious reports may invite penalties under municipal bylaws. Please ensure all reports are genuine and accurate.</span>
+    </div>
+
+    <script>
+  // -------- Captcha Generator --------
+  function generateCaptcha() {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    document.getElementById("captchaQuestion").textContent = `${num1} + ${num2} = ?`;
+    document.getElementById("captchaQuestion").setAttribute("data-answer", num1 + num2);
+  }
+
+  // Run captcha on load
+  window.onload = generateCaptcha;
+
+  // -------- Register User --------
+  async function registerAdmin() {
+  const name = document.getElementById("name").value.trim();
+  const idNumber = document.getElementById("idNumber").value.trim();  // ✅ FIX
+  const email = document.getElementById("email").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const captchaAnswer = document.getElementById("captchaAnswer").value.trim();
+  const captchaCorrect = document.getElementById("captchaQuestion").getAttribute("data-answer");
+
+  // Validate captcha
+  if (captchaAnswer !== captchaCorrect) {
+    alert("Captcha incorrect. Please try again.");
+    generateCaptcha();
+    return;
+  }
+
+  // Show spinner
+  const loadingContainer = document.getElementById("loadingContainer");
+  const successMessage = document.getElementById("successMessage");
+  loadingContainer.style.display = "block";
+  successMessage.style.display = "none";
+
+  try {
+    const response = await fetch("http://localhost:5000/api/admin/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, idNumber, email, address, password }) // ✅ FIX
+    });
+
+    if (response.ok) {
+      document.querySelector(".spinner").style.display = "none";
+      successMessage.style.display = "block";
+
+      setTimeout(() => {
+        window.location.href = "admin_login.html";
+      }, 3000);
+    } else {
+      const err = await response.json();
+      alert("Registration failed: " + err.message);
+      loadingContainer.style.display = "none";
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Server connection failed.");
+    loadingContainer.style.display = "none";
+  }
+}
+
+
+  // -------- Translation --------
+  const translations = {
+  hi: {
+    title: "झारखंड सरकार",
+    subtitle: "राज्य की आधिकारिक वेबसाइट",
+    formTitle: "उपयोगकर्ता पंजीकरण",
+    nameLabel: "पूरा नाम",
+    namePlaceholder: "पूरा नाम दर्ज करें",
+    idLabel: "पहचान संख्या",
+    idPlaceholder: "पहचान संख्या दर्ज करें",
+    emailLabel: "ईमेल",
+    emailPlaceholder: "ईमेल दर्ज करें",
+    addressLabel: "पता",
+    addressPlaceholder: "अपना पता दर्ज करें",
+    captchaLabel: "कैप्चा",
+    captchaPlaceholder: "योग दर्ज करें",
+    refreshBtn: "ताज़ा करें",
+    passwordLabel: "पासवर्ड",
+    passwordPlaceholder: "पासवर्ड दर्ज करें",
+    registerBtn: "पंजीकरण करें"
+  },
+    en: {
+    title: "GOVERNMENT OF JHARKHAND",
+    subtitle: "Official website of the State",
+    formTitle: "User Registration",
+    nameLabel: "Full Name",
+    namePlaceholder: "Enter full name",
+    idLabel: "ID Number",
+    idPlaceholder: "Enter ID number",
+    emailLabel: "Email",
+    emailPlaceholder: "Enter email",
+    addressLabel: "Address",
+    addressPlaceholder: "Enter your address",
+    captchaLabel: "Captcha",
+    captchaPlaceholder: "Enter sum",
+    refreshBtn: "Refresh",
+    passwordLabel: "Password",
+    passwordPlaceholder: "Enter password",
+    registerBtn: "Register"
+  }
+};
+
+  function setLanguage(lang) {
+    document.querySelectorAll("[data-translate]").forEach(el => {
+      const key = el.getAttribute("data-translate");
+      el.textContent = translations[lang][key];
+    });
+    document.querySelectorAll("[data-translate-placeholder]").forEach(el => {
+      const key = el.getAttribute("data-translate-placeholder");
+      el.placeholder = translations[lang][key];
+    });
+  }
+</script>
+
+</body>
+</html>
