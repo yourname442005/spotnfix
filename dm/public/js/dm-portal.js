@@ -30,9 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Back button event listener
+    // Back button event listener — ends the session and returns to login
     backBtn.addEventListener('click', function() {
-        alert('Back to Portal functionality would be implemented here');
+        SPOTNFIX.fetch('/api/logout', { method: 'POST' })
+            .catch(function () { /* session may already be gone */ })
+            .then(function () {
+                localStorage.removeItem('dmData');
+                window.location.href = 'executive_login.html';
+            });
     });
     
     // Function to load content based on view
@@ -149,22 +154,45 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     async function loadDMProfile() {
+        // The session cookie is HttpOnly, so the portal only knows its own ID
+        // from the login response. The backend still verifies both on every call.
+        const storedDm = localStorage.getItem('dmData');
+        let dmId = null;
         try {
-            // Get DM data from localStorage
-            let dmData = localStorage.getItem('dmData');
-            console.log('DM data from localStorage:', dmData);
-            
-            if (dmData) {
-                dmData = JSON.parse(dmData);
-                console.log('Parsed DM data:', dmData);
-                updateDMProfileDisplay(dmData);
+            dmId = storedDm ? JSON.parse(storedDm).id : null;
+        } catch (error) {
+            dmId = null;
+        }
+
+        if (!dmId) {
+            window.location.href = 'executive_login.html';
+            return;
+        }
+
+        try {
+            const response = await SPOTNFIX.fetch(`/api/dm/profile/${dmId}`);
+
+            // 401: no/expired session, 403: stored ID is not the session identity
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('dmData');
+                window.location.href = 'executive_login.html';
+                return;
+            }
+
+            const result = await response.json();
+
+            if (result.success && result.dm) {
+                // Backend is the source of truth for the rendered profile
+                localStorage.setItem('dmData', JSON.stringify(result.dm));
+                updateDMProfileDisplay(result.dm);
+            } else if (response.status === 404) {
+                setDefaultDMProfile('DM not found');
             } else {
-                console.log('No DM data found in localStorage');
-                setDefaultDMProfile();
+                setDefaultDMProfile('Unable to load profile');
             }
         } catch (error) {
             console.error('Error loading DM profile:', error);
-            setDefaultDMProfile();
+            setDefaultDMProfile('Unable to reach the server');
         }
     }
     
@@ -185,11 +213,12 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('DM profile display updated successfully');
     }
     
-    function setDefaultDMProfile() {
-        document.getElementById('view-name').textContent = 'Loading...';
-        document.getElementById('view-email').textContent = 'Loading...';
-        document.getElementById('view-idNumber').textContent = 'Loading...';
-        document.getElementById('view-address').textContent = 'Loading...';
+    function setDefaultDMProfile(message) {
+        const text = message || 'Loading...';
+        document.getElementById('view-name').textContent = text;
+        document.getElementById('view-email').textContent = text;
+        document.getElementById('view-idNumber').textContent = text;
+        document.getElementById('view-address').textContent = text;
     }
     
     function setupProfileEventListeners() {
@@ -244,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 try {
                     // Call API to update profile
-                    const response = await fetch(`http://localhost:5000/api/dm/profile/${dmId}`, {
+                    const response = await SPOTNFIX.fetch(`/api/dm/profile/${dmId}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -258,7 +287,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     
                     const result = await response.json();
-                    
+
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.removeItem('dmData');
+                        window.location.href = 'executive_login.html';
+                        return;
+                    }
+
                     if (result.success) {
                         // Update localStorage with new data
                         localStorage.setItem('dmData', JSON.stringify(result.dm));
@@ -280,11 +315,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Show success message
                         alert('Profile updated successfully!');
                     } else {
-                        alert('Error updating profile: ' + result.message);
+                        alert('Error updating profile: ' + (result.message || result.error || 'Unknown error'));
                     }
                 } catch (error) {
                     console.error('Error updating profile:', error);
-                    alert('Error updating profile. Please try again.');
+                    alert('Could not reach the server. Please check your connection and try again.');
                 }
             });
         }
@@ -1016,57 +1051,65 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
     
-    // Reports Content
+    // Reports Content — real reports assigned to this DM
     function loadReportsContent() {
         contentArea.innerHTML = `
             <div class="dashboard-header">
                 <div>
-                    <h1>Reports</h1>
-                    <p>Comprehensive analytics and performance reports</p>
+                    <h1>My Assigned Reports</h1>
+                    <p>Civic issues assigned to you by the admin team</p>
                 </div>
+                <button class="btn btn-outline btn-sm" onclick="loadEscalatedReports()">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
             </div>
-            
-            <div style="background: white; padding: 40px; border-radius: 12px; text-align: center;">
-                <i class="fas fa-file-alt" style="font-size: 48px; color: #00A896; margin-bottom: 20px;"></i>
-                <h2>Reports Dashboard</h2>
-                <p>Comprehensive analytics and performance reports would be displayed here.</p>
-                <p>This section would include:</p>
-                <ul style="text-align: left; max-width: 600px; margin: 20px auto; line-height: 1.8;">
-                    <li>Ward-wise performance reports</li>
-                    <li>SLA compliance summaries</li>
-                    <li>Issue resolution analytics</li>
-                    <li>Citizen satisfaction reports</li>
-                    <li>Resource allocation reports</li>
-                    <li>Historical trend analysis</li>
-                </ul>
+
+            <div id="escalated-reports-container">
+                <p class="text-muted">Loading reports...</p>
             </div>
         `;
+
+        loadEscalatedReports();
     }
 
-    // Load escalated reports for DM
+    // Load reports assigned to this DM
     async function loadEscalatedReports() {
+        const container = document.getElementById('escalated-reports-container');
         try {
-            const response = await fetch('http://localhost:5000/api/dm/reports');
+            const response = await SPOTNFIX.fetch('/api/dm/reports');
             const data = await response.json();
-            
+
+            if (response.status === 401) {
+                localStorage.removeItem('dmData');
+                window.location.href = 'executive_login.html';
+                return;
+            }
+
+            if (response.status === 403) {
+                localStorage.removeItem('dmData');
+                window.location.href = 'executive_login.html';
+                return;
+            }
+
             if (data.success) {
                 displayEscalatedReports(data.reports);
             } else {
-                console.error('Failed to load escalated reports:', data.error);
-                document.getElementById('escalated-reports-container').innerHTML = '<p class="text-danger">Failed to load escalated reports</p>';
+                console.error('Failed to load reports:', data.error);
+                if (container) container.innerHTML = '<p class="text-danger">Failed to load reports: ' + (data.error || 'Unknown error') + '</p>';
             }
         } catch (error) {
-            console.error('Error loading escalated reports:', error);
-            document.getElementById('escalated-reports-container').innerHTML = '<p class="text-danger">Error loading escalated reports</p>';
+            console.error('Error loading reports:', error);
+            if (container) container.innerHTML = '<p class="text-danger">Could not reach the server. Please check your connection and try again.</p>';
         }
     }
 
-    // Display escalated reports in the DM portal
+    // Display reports assigned to this DM
     function displayEscalatedReports(reports) {
         const container = document.getElementById('escalated-reports-container');
-        
+        if (!container) return;
+
         if (reports.length === 0) {
-            container.innerHTML = '<p class="text-muted">No escalated reports found</p>';
+            container.innerHTML = '<p class="text-muted">No reports are assigned to you yet.</p>';
             return;
         }
         
@@ -1074,13 +1117,43 @@ document.addEventListener('DOMContentLoaded', function() {
         reports.forEach(report => {
             const createdDate = new Date(report.created_at).toLocaleDateString();
             const daysPending = Math.floor((new Date() - new Date(report.created_at)) / (1000 * 60 * 60 * 24));
+            const st = SPOTNFIX.canonicalStatus(report.status);
+            const reporter = report.user || {};
+            const isEscalated = st === 'ESCALATED';
+            const badgeClass = st === 'RESOLVED' ? 'badge-success' : (isEscalated ? 'badge-danger' : 'badge-info');
+            const badgeIcon = st === 'RESOLVED' ? 'check-circle' : (isEscalated ? 'exclamation-triangle' : 'circle-notch');
+            const badgeText = (isEscalated ? 'ESCALATED' : st) + (st === 'RESOLVED' ? '' : ` (${daysPending} days)`);
+            
+            // Legal next step for this DM per the backend transition matrix
+            let actionButton;
+            if (st === 'ASSIGNED') {
+                actionButton = `
+                                <button class="btn btn-info btn-sm" onclick="updateDMReportStatus('${report._id}', 'IN_PROGRESS')">
+                                    <i class="fas fa-play"></i> Start Work
+                                </button>`;
+            } else if (st === 'IN_PROGRESS') {
+                actionButton = `
+                                <button class="btn btn-success btn-sm" onclick="updateDMReportStatus('${report._id}', 'RESOLVED')">
+                                    <i class="fas fa-check"></i> Mark as Completed
+                                </button>`;
+            } else if (isEscalated) {
+                actionButton = `
+                                <button class="btn btn-info btn-sm" onclick="updateDMReportStatus('${report._id}', 'IN_PROGRESS')">
+                                    <i class="fas fa-redo"></i> Resume Work
+                                </button>`;
+            } else {
+                actionButton = `
+                                <span class="text-muted">
+                                    <i class="fas fa-${st === 'RESOLVED' ? 'check-circle' : 'circle-notch'}"></i> ${st}
+                                </span>`;
+            }
             
             html += `
-                <div class="card mb-3" style="border-left: 4px solid #EF4444;">
+                <div class="card mb-3" style="border-left: 4px solid ${st === 'RESOLVED' ? '#10B981' : (isEscalated ? '#EF4444' : '#3B82F6')};">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">${report.issue_title}</h5>
-                        <span class="badge badge-danger">
-                            <i class="fas fa-exclamation-triangle"></i> ESCALATED (${daysPending} days)
+                        <span class="badge ${badgeClass}">
+                            <i class="fas fa-${badgeIcon}"></i> ${badgeText}
                         </span>
                     </div>
                     <div class="card-body">
@@ -1092,10 +1165,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <p><strong>Created:</strong> ${createdDate}</p>
                             </div>
                             <div class="col-md-6">
-                                <p><strong>Reporter:</strong> ${report.user.full_name}</p>
-                                <p><strong>Email:</strong> ${report.user.email}</p>
-                                <p><strong>Phone:</strong> ${report.user.phone}</p>
+                                <p><strong>Reporter:</strong> ${reporter.full_name}</p>
+                                <p><strong>Email:</strong> ${reporter.email}</p>
+                                <p><strong>Phone:</strong> ${reporter.phone}</p>
                                 <p><strong>Priority:</strong> ${report.priority}</p>
+                                ${report.department ? `<p><strong>Department:</strong> ${report.department}</p>` : ''}
+                                ${report.assigned_at ? `<p><strong>Assigned:</strong> ${new Date(report.assigned_at).toLocaleDateString()}</p>` : ''}
                             </div>
                         </div>
                         <div class="row">
@@ -1104,6 +1179,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <p class="text-muted">${report.issue_description}</p>
                             </div>
                         </div>
+                        ${isEscalated ? `
                         <div class="row mt-3">
                             <div class="col-12">
                                 <div class="alert alert-warning">
@@ -1111,12 +1187,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <strong>Escalation Reason:</strong> This report has been pending for more than 2 days and requires immediate attention.
                                 </div>
                             </div>
-                        </div>
+                        </div>` : ''}
                         <div class="row mt-3">
                             <div class="col-12">
-                                <button class="btn btn-success btn-sm" onclick="updateDMReportStatus('${report._id}', 'completed')">
-                                    <i class="fas fa-check"></i> Mark as Completed
-                                </button>
+                                ${actionButton}
                                 <button class="btn btn-info btn-sm ml-2" onclick="viewReportDetails('${report._id}')">
                                     <i class="fas fa-eye"></i> View Details
                                 </button>
@@ -1141,7 +1215,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const dm = JSON.parse(dmData);
             
-            const response = await fetch(`http://localhost:5000/api/dm/reports/${reportId}/status`, {
+            const response = await SPOTNFIX.fetch(`/api/dm/reports/${reportId}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1152,17 +1226,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             });
             
+            if (response.status === 401) {
+                localStorage.removeItem('dmData');
+                window.location.href = 'executive_login.html';
+                return;
+            }
+
             const data = await response.json();
-            
+
             if (data.success) {
                 alert('Report status updated successfully!');
                 loadEscalatedReports(); // Refresh the reports list
+            } else if (response.status === 404) {
+                alert('Report not found.');
+                loadEscalatedReports();
+            } else if (response.status === 409) {
+                alert('Cannot update status: ' + (data.error || 'illegal transition'));
+                loadEscalatedReports();
+            } else if (response.status === 403) {
+                alert('Not allowed: ' + (data.error || 'request rejected'));
+                loadEscalatedReports();
             } else {
-                alert('Failed to update report status: ' + data.error);
+                alert('Failed to update report status: ' + (data.error || 'Unknown error'));
             }
         } catch (error) {
             console.error('Error updating DM report status:', error);
-            alert('Error updating report status');
+            alert('Could not reach the server. Please check your connection and try again.');
         }
     }
 

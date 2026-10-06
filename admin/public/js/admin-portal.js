@@ -58,10 +58,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Back button event listener
+    // Back button event listener — ends the session and returns to login
     backBtn.addEventListener('click', function() {
-        // In a real implementation, this would navigate back to the main portal
-        alert('Navigating back to main portal...');
+        SPOTNFIX.fetch('/api/logout', { method: 'POST' })
+            .catch(function () { /* session may already be gone */ })
+            .then(function () {
+                localStorage.removeItem('adminData');
+                window.location.href = 'admin_login.html';
+            });
     });
     
     // Role switching
@@ -499,37 +503,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function loadAssignmentsContent() {
         if (!views.assignments) return;
-        
+
         views.assignments.innerHTML = `
             <div class="view-header">
                 <div>
                     <h1>Assignments</h1>
-                    <p class="text-gray-600">Manage task assignments and track department responsibilities</p>
-                </div>
-                <div class="view-actions flex items-center space-x-3">
-                    <button class="btn btn-outline">
-                        <i class="fas fa-filter"></i>
-                        Filter
-                    </button>
-                    <button class="btn btn-outline">
-                        <i class="fas fa-search"></i>
-                        Search
-                    </button>
+                    <p class="text-gray-600">Track which reports have been assigned to DMs and their departments</p>
                 </div>
             </div>
-            
+
             <div class="stats-grid">
                 <div class="card stat-card">
                     <div class="stat-header">
                         <div>
-                            <p class="stat-label">Total Assignments</p>
-                            <p class="stat-value">87</p>
+                            <p class="stat-label">Assigned Reports</p>
+                            <p class="stat-value" id="stat-assigned-assignments">–</p>
                         </div>
                         <i class="fas fa-tasks stat-icon"></i>
-                    </div>
-                    <div class="stat-footer">
-                        <i class="fas fa-trending-up text-green-500"></i>
-                        <span class="text-green-600">+5 from last week</span>
                     </div>
                 </div>
 
@@ -537,14 +527,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="stat-header">
                         <div>
                             <p class="stat-label">Completed</p>
-                            <p class="stat-value text-green-600">64</p>
+                            <p class="stat-value text-green-600" id="stat-completed-assignments">–</p>
                         </div>
                         <i class="fas fa-check-circle stat-icon text-green-500"></i>
-                    </div>
-                    <div class="stat-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 74%;"></div>
-                        </div>
                     </div>
                 </div>
 
@@ -552,107 +537,135 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="stat-header">
                         <div>
                             <p class="stat-label">In Progress</p>
-                            <p class="stat-value">18</p>
+                            <p class="stat-value" id="stat-inprogress-assignments">–</p>
                         </div>
                         <i class="fas fa-sync-alt stat-icon"></i>
-                    </div>
-                    <div class="stat-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 21%;"></div>
-                        </div>
                     </div>
                 </div>
 
                 <div class="card stat-card">
                     <div class="stat-header">
                         <div>
-                            <p class="stat-label">Overdue</p>
-                            <p class="stat-value text-red-500">5</p>
+                            <p class="stat-label">Awaiting Assignment</p>
+                            <p class="stat-value text-red-500" id="stat-awaiting-assignments">–</p>
                         </div>
                         <i class="fas fa-exclamation-triangle stat-icon text-red-500"></i>
                     </div>
-                    <div class="stat-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 6%;"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
-            
+
             <div class="card">
                 <div class="card-header">
                     <h2>Current Assignments</h2>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" onclick="openIssuesView()">
                         <i class="fas fa-plus"></i>
-                        New Assignment
+                        Assign a Report
                     </button>
                 </div>
-                <div class="assignments-list">
-                    <div class="assignment-item">
-                        <div class="assignment-info">
-                            <div class="assignment-title">
-                                <h3>Repair potholes on Main Street</h3>
-                                <span class="badge badge-high">High Priority</span>
-                            </div>
-                            <div class="assignment-details">
-                                <span><i class="fas fa-user"></i> Assigned to: Public Works</span>
-                                <span>•</span>
-                                <span><i class="fas fa-calendar"></i> Due: Tomorrow</span>
-                            </div>
-                        </div>
-                        <div class="assignment-status">
-                            <span class="badge badge-blue">In Progress</span>
-                            <button class="btn btn-outline btn-sm">
-                                <i class="fas fa-eye"></i>
-                                View
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="assignment-item">
-                        <div class="assignment-info">
-                            <div class="assignment-title">
-                                <h3>Install new streetlights in Sector 3</h3>
-                                <span class="badge badge-medium">Medium Priority</span>
-                            </div>
-                            <div class="assignment-details">
-                                <span><i class="fas fa-user"></i> Assigned to: Electrical</span>
-                                <span>•</span>
-                                <span><i class="fas fa-calendar"></i> Due: 3 days</span>
-                            </div>
-                        </div>
-                        <div class="assignment-status">
-                            <span class="badge badge-yellow">Pending</span>
-                            <button class="btn btn-outline btn-sm">
-                                <i class="fas fa-eye"></i>
-                                View
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="assignment-item">
-                        <div class="assignment-info">
-                            <div class="assignment-title">
-                                <h3>Clean drainage system in Ward 7</h3>
-                                <span class="badge badge-low">Low Priority</span>
-                            </div>
-                            <div class="assignment-details">
-                                <span><i class="fas fa-user"></i> Assigned to: Sanitation</span>
-                                <span>•</span>
-                                <span><i class="fas fa-calendar"></i> Due: 1 week</span>
-                            </div>
-                        </div>
-                        <div class="assignment-status">
-                            <span class="badge badge-green">Completed</span>
-                            <button class="btn btn-outline btn-sm">
-                                <i class="fas fa-eye"></i>
-                                View
-                            </button>
-                        </div>
-                    </div>
+                <div class="assignments-list" id="assignments-list">
+                    <p class="text-muted">Loading assignments...</p>
                 </div>
             </div>
         `;
+
+        loadAssignmentsData();
+    }
+
+    // Real assignment data from GET /api/admin/reports
+    async function loadAssignmentsData() {
+        const list = document.getElementById('assignments-list');
+        if (!list) return;
+
+        try {
+            const response = await SPOTNFIX.fetch('/api/admin/reports');
+
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('adminData');
+                window.location.href = 'admin_login.html';
+                return;
+            }
+
+            const data = await response.json();
+            if (!data.success) {
+                throw new Error(data.error || 'Failed to load reports');
+            }
+
+            const reports = data.reports || [];
+            const assigned = reports.filter(r => r.assigned_dm_name);
+            const completed = reports.filter(r => SPOTNFIX.canonicalStatus(r.status) === 'RESOLVED');
+            const inProgress = reports.filter(r => SPOTNFIX.canonicalStatus(r.status) === 'IN_PROGRESS');
+            const awaiting = reports.filter(r => SPOTNFIX.canonicalStatus(r.status) === 'VERIFIED');
+
+            setStat('stat-assigned-assignments', assigned.length);
+            setStat('stat-completed-assignments', completed.length);
+            setStat('stat-inprogress-assignments', inProgress.length);
+            setStat('stat-awaiting-assignments', awaiting.length);
+
+            if (assigned.length === 0) {
+                list.innerHTML = '<p class="text-muted">No reports have been assigned to a DM yet.</p>';
+                return;
+            }
+
+            list.innerHTML = assigned
+                .slice()
+                .sort((a, b) => new Date(b.assigned_at || b.created_at) - new Date(a.assigned_at || a.created_at))
+                .map(renderAssignmentItem)
+                .join('');
+        } catch (error) {
+            console.error('Error loading assignments:', error);
+            list.innerHTML = '<p class="text-danger">Could not load assignments: ' + escapeHTML(error.message || 'Unknown error') + '</p>';
+        }
+    }
+
+    function setStat(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = String(value);
+    }
+
+    function renderAssignmentItem(report) {
+        const st = SPOTNFIX.canonicalStatus(report.status);
+        const priority = (report.priority || '').toUpperCase();
+        const priorityClass = priority === 'HIGH' ? 'badge-high' : (priority === 'MEDIUM' ? 'badge-medium' : 'badge-low');
+        const statusClass = st === 'RESOLVED' ? 'badge-green' : (st === 'IN_PROGRESS' ? 'badge-blue' : 'badge-yellow');
+        const assignedDate = report.assigned_at ? new Date(report.assigned_at).toLocaleDateString() : '';
+
+        return `
+            <div class="assignment-item">
+                <div class="assignment-info">
+                    <div class="assignment-title">
+                        <h3>${escapeHTML(report.issue_title)}</h3>
+                        <span class="badge ${priorityClass}">${escapeHTML(priority || 'NORMAL')} Priority</span>
+                    </div>
+                    <div class="assignment-details">
+                        <span><i class="fas fa-user"></i> Assigned to: ${escapeHTML(report.assigned_dm_name)}</span>
+                        ${report.department ? `<span>•</span><span><i class="fas fa-building"></i> ${escapeHTML(report.department)}</span>` : ''}
+                        ${assignedDate ? `<span>•</span><span><i class="fas fa-calendar"></i> ${assignedDate}</span>` : ''}
+                    </div>
+                </div>
+                <div class="assignment-status">
+                    <span class="badge ${statusClass}">${escapeHTML(st)}</span>
+                    <button class="btn btn-outline btn-sm" onclick="openIssuesView()">
+                        <i class="fas fa-eye"></i>
+                        View
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    function escapeHTML(value) {
+        return String(value === undefined || value === null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // Navigate to the Issues view (used by assignment actions)
+    function openIssuesView() {
+        const issuesNav = document.querySelector('.nav-item[data-view="issues"]');
+        if (issuesNav) issuesNav.click();
     }
     
     function loadKanbanContent() {
@@ -1214,22 +1227,46 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     async function loadAdminProfile() {
+        // The session cookie is HttpOnly, so the portal only knows its own ID
+        // from the login response. The backend still verifies both on every call.
+        const storedAdmin = localStorage.getItem('adminData');
+        let adminId = null;
         try {
-            // Get admin data from localStorage
-            let adminData = localStorage.getItem('adminData');
-            console.log('Admin data from localStorage:', adminData);
-            
-            if (adminData) {
-                adminData = JSON.parse(adminData);
-                console.log('Parsed admin data:', adminData);
-                updateAdminProfileDisplay(adminData);
+            adminId = storedAdmin ? JSON.parse(storedAdmin).id : null;
+        } catch (error) {
+            adminId = null;
+        }
+
+        if (!adminId) {
+            window.location.href = 'admin_login.html';
+            return;
+        }
+
+        try {
+            const response = await SPOTNFIX.fetch(`/api/admin/profile/${adminId}`);
+
+            // 401: no/expired session. 403: the stored ID is not the session
+            // identity (or the caller is not an admin). Both mean "log in again".
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('adminData');
+                window.location.href = 'admin_login.html';
+                return;
+            }
+
+            const result = await response.json();
+
+            if (result.success && result.admin) {
+                // Backend is the source of truth for the rendered profile.
+                localStorage.setItem('adminData', JSON.stringify(result.admin));
+                updateAdminProfileDisplay(result.admin);
+            } else if (response.status === 404) {
+                setDefaultAdminProfile('Admin not found');
             } else {
-                console.log('No admin data found in localStorage');
-                setDefaultAdminProfile();
+                setDefaultAdminProfile('Unable to load profile');
             }
         } catch (error) {
             console.error('Error loading admin profile:', error);
-            setDefaultAdminProfile();
+            setDefaultAdminProfile('Unable to reach the server');
         }
     }
     
@@ -1250,11 +1287,12 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Admin profile display updated successfully');
     }
     
-    function setDefaultAdminProfile() {
-        document.getElementById('view-name').textContent = 'Loading...';
-        document.getElementById('view-email').textContent = 'Loading...';
-        document.getElementById('view-idNumber').textContent = 'Loading...';
-        document.getElementById('view-address').textContent = 'Loading...';
+    function setDefaultAdminProfile(message) {
+        const text = message || 'Loading...';
+        document.getElementById('view-name').textContent = text;
+        document.getElementById('view-email').textContent = text;
+        document.getElementById('view-idNumber').textContent = text;
+        document.getElementById('view-address').textContent = text;
     }
     
     function setupProfileEventListeners() {
@@ -1309,7 +1347,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 try {
                     // Call API to update profile
-                    const response = await fetch(`http://localhost:5000/api/admin/profile/${adminId}`, {
+                    const response = await SPOTNFIX.fetch(`/api/admin/profile/${adminId}`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -1323,7 +1361,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     
                     const result = await response.json();
-                    
+
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.removeItem('adminData');
+                        window.location.href = 'admin_login.html';
+                        return;
+                    }
+
                     if (result.success) {
                         // Update localStorage with new data
                         localStorage.setItem('adminData', JSON.stringify(result.admin));
@@ -1345,7 +1389,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Show success message
                         alert('Profile updated successfully!');
                     } else {
-                        alert('Error updating profile: ' + result.message);
+                        alert('Error updating profile: ' + (result.message || result.error || 'Unknown error'));
                     }
                 } catch (error) {
                     console.error('Error updating profile:', error);
@@ -1395,13 +1439,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Load user reports for admin
+    let lastReports = [];
+
     async function loadUserReports() {
         try {
             console.log('Fetching reports from API...');
-            const response = await fetch('http://localhost:5000/api/admin/reports');
+            const response = await SPOTNFIX.fetch('/api/admin/reports');
             console.log('Response status:', response.status);
             const data = await response.json();
             console.log('Response data:', data);
+
+            if (response.status === 401) {
+                localStorage.removeItem('adminData');
+                window.location.href = 'admin_login.html';
+                return;
+            }
             
             if (data.success) {
                 console.log('Reports loaded successfully:', data.reports.length, 'reports');
@@ -1419,6 +1471,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Display reports in the admin portal
     function displayReports(reports) {
         console.log('Displaying reports:', reports);
+        lastReports = Array.isArray(reports) ? reports : [];
         const container = document.getElementById('reports-container');
         console.log('Container element:', container);
         
@@ -1430,10 +1483,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const statusFilter = document.getElementById('status-filter');
         const filterValue = statusFilter ? statusFilter.value : 'all';
         
-        // Filter reports by status
+        // Filter reports by status (filter options use legacy lowercase names,
+        // report.status comes back canonical uppercase from the API)
         let filteredReports = reports;
         if (filterValue !== 'all') {
-            filteredReports = reports.filter(report => report.status === filterValue);
+            filteredReports = reports.filter(report =>
+                SPOTNFIX.canonicalStatus(report.status) === SPOTNFIX.canonicalStatus(filterValue)
+            );
         }
         
         if (filteredReports.length === 0) {
@@ -1444,8 +1500,10 @@ document.addEventListener('DOMContentLoaded', function() {
         let html = '';
         filteredReports.forEach(report => {
             const createdDate = new Date(report.created_at).toLocaleDateString();
-            const statusClass = report.status === 'completed' ? 'success' : 'warning';
-            const statusIcon = report.status === 'completed' ? 'check-circle' : 'clock';
+            const st = SPOTNFIX.canonicalStatus(report.status);
+            const statusClass = st === 'RESOLVED' ? 'success' : (st === 'REJECTED' ? 'danger' : 'warning');
+            const statusIcon = st === 'RESOLVED' ? 'check-circle' : (st === 'REJECTED' ? 'times-circle' : 'clock');
+            const reporter = report.user || {};
             
             html += `
                 <div class="card mb-3">
@@ -1464,9 +1522,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <p><strong>Created:</strong> ${createdDate}</p>
                             </div>
                             <div class="col-md-6">
-                                <p><strong>Reporter:</strong> ${report.user.full_name}</p>
-                                <p><strong>Email:</strong> ${report.user.email}</p>
-                                <p><strong>Phone:</strong> ${report.user.phone}</p>
+                                <p><strong>Reporter:</strong> ${reporter.full_name}</p>
+                                <p><strong>Email:</strong> ${reporter.email}</p>
+                                <p><strong>Phone:</strong> ${reporter.phone}</p>
                                 <p><strong>Priority:</strong> ${report.priority}</p>
                             </div>
                         </div>
@@ -1476,15 +1534,37 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <p class="text-muted">${report.issue_description}</p>
                             </div>
                         </div>
+                        ${report.assigned_dm_name ? `
+                        <div class="row">
+                            <div class="col-12">
+                                <p><strong>Assigned To:</strong> ${report.assigned_dm_name}${report.department ? ' — ' + report.department : ''}</p>
+                                ${report.assigned_at ? `<p><strong>Assigned At:</strong> ${new Date(report.assigned_at).toLocaleString()}</p>` : ''}
+                                ${report.assigned_by_admin_name ? `<p><strong>Assigned By:</strong> ${report.assigned_by_admin_name}</p>` : ''}
+                                ${report.resolved_by_dm_name ? `<p><strong>Resolved By:</strong> ${report.resolved_by_dm_name}</p>` : ''}
+                                ${report.resolution_notes ? `<p><strong>Resolution Notes:</strong> ${report.resolution_notes}</p>` : ''}
+                            </div>
+                        </div>` : ''}
                         <div class="row mt-3">
                             <div class="col-12">
-                                ${report.status === 'pending' ? `
-                                    <button class="btn btn-success btn-sm" onclick="updateReportStatus('${report._id}', 'completed')">
-                                        <i class="fas fa-check"></i> Mark as Completed
+                                ${st === 'PENDING' ? `
+                                    <button class="btn btn-success btn-sm" onclick="updateReportStatus('${report._id}', 'VERIFIED')">
+                                        <i class="fas fa-check"></i> Verify
                                     </button>
-                                ` : `
+                                    <button class="btn btn-danger btn-sm ml-2" onclick="updateReportStatus('${report._id}', 'REJECTED')">
+                                        <i class="fas fa-times"></i> Reject
+                                    </button>
+                                ` : st === 'VERIFIED' ? `
+                                    <button class="btn btn-primary btn-sm" onclick="openAssignForm('${report._id}')">
+                                        <i class="fas fa-user-check"></i> Assign to DM
+                                    </button>
+                                    <div id="assign-form-${report._id}" class="mt-3"></div>
+                                ` : st === 'RESOLVED' ? `
                                     <span class="text-success">
                                         <i class="fas fa-check-circle"></i> Completed
+                                    </span>
+                                ` : `
+                                    <span class="text-muted">
+                                        <i class="fas fa-circle-notch"></i> ${st}
                                     </span>
                                 `}
                             </div>
@@ -1508,7 +1588,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const admin = JSON.parse(adminData);
             
-            const response = await fetch(`http://localhost:5000/api/admin/reports/${reportId}/status`, {
+            const response = await SPOTNFIX.fetch(`/api/admin/reports/${reportId}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -1519,17 +1599,205 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             });
             
+            if (response.status === 401) {
+                localStorage.removeItem('adminData');
+                window.location.href = 'admin_login.html';
+                return;
+            }
+
             const data = await response.json();
-            
+
             if (data.success) {
                 alert('Report status updated successfully!');
                 loadUserReports(); // Refresh the reports list
+            } else if (response.status === 404) {
+                alert('Report not found.');
+                loadUserReports();
+            } else if (response.status === 409) {
+                alert('Cannot update status: ' + (data.error || 'illegal transition'));
+                loadUserReports();
+            } else if (response.status === 403) {
+                alert('Not authorised: ' + (data.error || 'request rejected'));
             } else {
-                alert('Failed to update report status: ' + data.error);
+                alert('Failed to update report status: ' + (data.error || 'Unknown error'));
             }
         } catch (error) {
             console.error('Error updating report status:', error);
-            alert('Error updating report status');
+            alert('Could not reach the server. Please check your connection and try again.');
+        }
+    }
+
+    // ---- Report assignment: admin selects a DM + department, then confirms ----
+
+    // Static frontend department list (there is no backend department registry)
+    const DEPARTMENTS = [
+        'Electrical',
+        'Public Works',
+        'Sanitation',
+        'Water Supply',
+        'Roads & Transport',
+        'Parks & Gardens',
+        'Health',
+        'Other'
+    ];
+
+    let dmDirectoryPromise = null;
+
+    // GET /api/admin/dms (admin-only), cached for the session
+    function loadDmDirectory() {
+        if (!dmDirectoryPromise) {
+            dmDirectoryPromise = SPOTNFIX.fetch('/api/admin/dms')
+                .then(async function (response) {
+                    if (response.status === 401) {
+                        localStorage.removeItem('adminData');
+                        window.location.href = 'admin_login.html';
+                        return [];
+                    }
+                    const data = await response.json();
+                    if (!data.success) {
+                        throw new Error(data.error || 'Failed to load DMs');
+                    }
+                    return data.dms || [];
+                })
+                .catch(function (error) {
+                    dmDirectoryPromise = null; // allow a retry on the next attempt
+                    throw error;
+                });
+        }
+        return dmDirectoryPromise;
+    }
+
+    // Toggle the inline assignment form inside a VERIFIED report card
+    async function openAssignForm(reportId) {
+        const host = document.getElementById('assign-form-' + reportId);
+        if (!host) return;
+
+        if (host.dataset.open === 'true') {
+            closeAssignForm(reportId);
+            return;
+        }
+        host.dataset.open = 'true';
+        host.innerHTML = '<p class="text-muted">Loading DMs...</p>';
+
+        try {
+            const dms = await loadDmDirectory();
+            if (!host.dataset.open || !document.getElementById('assign-form-' + reportId)) return;
+
+            if (dms.length === 0) {
+                host.innerHTML = '<p class="text-danger">No DMs are registered yet. Ask an administrator to create a DM account first.</p>';
+                return;
+            }
+
+            host.innerHTML = `
+                <div class="form-group">
+                    <label for="assign-dm-${reportId}">District Magistrate</label>
+                    <select id="assign-dm-${reportId}" class="form-select">
+                        ${dms.map(dm => `<option value="${dm._id}">${escapeHTML(dm.name)}${dm.idNumber ? ' (' + escapeHTML(dm.idNumber) + ')' : ''}</option>`).join('')}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="assign-dept-${reportId}">Department</label>
+                    <select id="assign-dept-${reportId}" class="form-select">
+                        ${DEPARTMENTS.map(dept => `<option value="${dept}">${dept}</option>`).join('')}
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-sm" id="confirm-assign-${reportId}">
+                    <i class="fas fa-check"></i> Confirm Assignment
+                </button>
+                <button class="btn btn-outline btn-sm" id="cancel-assign-${reportId}">Cancel</button>
+            `;
+
+            document.getElementById('confirm-assign-' + reportId).addEventListener('click', function () {
+                confirmAssign(reportId);
+            });
+            document.getElementById('cancel-assign-' + reportId).addEventListener('click', function () {
+                closeAssignForm(reportId);
+            });
+        } catch (error) {
+            console.error('Error loading DM directory:', error);
+            host.innerHTML = '<p class="text-danger">Could not load the DM list: ' + escapeHTML(error.message || 'Unknown error') + '</p>';
+        }
+    }
+
+    function closeAssignForm(reportId) {
+        const host = document.getElementById('assign-form-' + reportId);
+        if (!host) return;
+        host.dataset.open = '';
+        host.innerHTML = '';
+    }
+
+    async function confirmAssign(reportId) {
+        const dmSelect = document.getElementById('assign-dm-' + reportId);
+        const deptSelect = document.getElementById('assign-dept-' + reportId);
+        if (!dmSelect || !deptSelect) return;
+
+        const dmId = dmSelect.value;
+        const department = deptSelect.value;
+        if (!dmId) {
+            alert('Select a DM to assign this report to.');
+            return;
+        }
+
+        await assignReport(reportId, dmId, department);
+    }
+
+    // POST /api/admin/reports/:reportId/assign
+    async function assignReport(reportId, dmId, department) {
+        const body = { dmId: dmId, department: department };
+        try {
+            const stored = localStorage.getItem('adminData');
+            const adminId = stored ? JSON.parse(stored).id : null;
+            if (adminId) body.adminId = adminId;
+        } catch (error) {
+            // identity comes from the session cookie anyway; the backend re-checks it
+        }
+
+        try {
+            const response = await SPOTNFIX.fetch(`/api/admin/reports/${reportId}/assign`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+
+            if (response.status === 401) {
+                localStorage.removeItem('adminData');
+                window.location.href = 'admin_login.html';
+                return;
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+                const name = data.assignedTo && data.assignedTo.name ? data.assignedTo.name : 'the selected DM';
+                alert('Report assigned to ' + name + ' (' + ((data.assignedTo && data.assignedTo.department) || department) + ')');
+                loadUserReports();
+                refreshAssignmentsView();
+                return;
+            }
+
+            if (response.status === 400) {
+                alert('Invalid assignment request: ' + (data.error || 'check the details'));
+            } else if (response.status === 403) {
+                alert('Not authorised to assign this report: ' + (data.error || 'request rejected'));
+            } else if (response.status === 404) {
+                alert('Report or DM not found: ' + (data.error || 'missing record'));
+                loadUserReports();
+            } else if (response.status === 409) {
+                alert('Cannot assign this report: ' + (data.error || 'its status changed'));
+                loadUserReports();
+            } else {
+                alert('Assignment failed: ' + (data.error || 'Unknown error'));
+            }
+        } catch (error) {
+            console.error('Error assigning report:', error);
+            alert('Could not reach the server. Please check your connection and try again.');
+        }
+    }
+
+    // Re-render the Assignments view after a successful assignment
+    function refreshAssignmentsView() {
+        if (document.getElementById('assignments-list')) {
+            loadAssignmentsData();
         }
     }
 
@@ -1537,10 +1805,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make functions globally available
     window.loadUserReports = loadUserReports;
     window.updateReportStatus = updateReportStatus;
+    window.openAssignForm = openAssignForm;
+    window.closeAssignForm = closeAssignForm;
+    window.confirmAssign = confirmAssign;
+    window.assignReport = assignReport;
+    window.openIssuesView = openIssuesView;
 
     // Initialize the page
     renderView();
-    
+
+    // Re-render the reports list when the status filter changes
+    const statusFilterEl = document.getElementById('status-filter');
+    if (statusFilterEl) {
+        statusFilterEl.addEventListener('change', function () {
+            displayReports(lastReports);
+        });
+    }
+
     // Initialize profile section if it exists
     if (views.profile) {
         loadProfileContent();

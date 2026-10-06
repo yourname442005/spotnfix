@@ -2,9 +2,21 @@ from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
 from datetime import datetime, timedelta
 import pymongo
+from bson import ObjectId
+from bson.errors import InvalidId
 import os
 import json
 import sys
+
+MONGO_URI = os.environ.get("MONGODB_URI", "mongodb://127.0.0.1:27017/sih_database")
+DB_NAME = MONGO_URI.rsplit("/", 1)[-1].split("?")[0] or "sih_database"
+
+def _as_object_id(value):
+    """Store citizen references as ObjectIds, falling back to the raw string."""
+    try:
+        return ObjectId(value)
+    except (InvalidId, TypeError):
+        return value
 
 def _to_degrees(value):
     """Convert GPS coordinates stored as rationals to float degrees."""
@@ -93,13 +105,13 @@ def save_to_mongodb(image_data, user_id, issue_data):
     """
     try:
         # MongoDB connection
-        client = pymongo.MongoClient("mongodb://127.0.0.1:27017/sih_database")
-        db = client["sih_database"]
+        client = pymongo.MongoClient(MONGO_URI)
+        db = client[DB_NAME]
         collection = db["user_reports"]
         
         # Prepare document
         document = {
-            "user_id": user_id,
+            "user_id": _as_object_id(user_id),
             "issue_title": issue_data.get("title", ""),
             "issue_category": issue_data.get("category", ""),
             "issue_location": issue_data.get("location", ""),
@@ -108,7 +120,7 @@ def save_to_mongodb(image_data, user_id, issue_data):
             "image_data": image_data,
             "image_timestamp": issue_data.get("image_timestamp"),
             "gps_coordinates": issue_data.get("gps_coordinates"),
-            "status": "Pending",
+            "status": "PENDING",
             "priority": "Medium",
             "created_at": datetime.now(),
             "updated_at": datetime.now()

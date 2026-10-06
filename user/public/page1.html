@@ -1546,6 +1546,7 @@
         </nav>
     </div>
 
+  <script src="/shared/api-config.js"></script>
   <script>
     console.log('Page loaded, setting up event listeners...'); // Debug log
     
@@ -2019,7 +2020,7 @@
                         formData.append('reportingMethod', 'photo');
                         
                         // Upload and process image
-                        const response = await fetch('http://localhost:5000/api/upload-image', {
+                        const response = await SPOTNFIX.fetch('/api/upload-image', {
                             method: 'POST',
                             body: formData
                         });
@@ -2051,7 +2052,7 @@
         // If no images were processed, store the issue directly in MongoDB
         if (!hasImages) {
             try {
-                const response = await fetch('http://localhost:5000/api/store-issue', {
+                const response = await SPOTNFIX.fetch('/api/store-issue', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -2153,6 +2154,27 @@
         const submitBtn = document.getElementById('submit-issue');
         submitBtn.textContent = 'Submit Issue Report';
         submitBtn.disabled = false;
+
+        // Reset the wizard to step 1 so the next report starts from the beginning
+        document.getElementById('report-step-1').classList.remove('hidden');
+        document.getElementById('report-step-2').classList.add('hidden');
+        document.getElementById('report-step-3').classList.add('hidden');
+        document.querySelectorAll('.step-number').forEach(function (el, index) {
+            if (index === 0) {
+                el.classList.remove('inactive');
+                el.classList.add('active');
+            } else {
+                el.classList.add('inactive');
+                el.classList.remove('active');
+            }
+        });
+        document.querySelectorAll('.step-connector').forEach(function (el, index) {
+            if (index === 0) {
+                el.classList.add('active');
+            } else {
+                el.classList.remove('active');
+            }
+        });
         
         // Show success message and return to dashboard
         alert('Issue reported successfully! You will receive updates on your registered contact details.');
@@ -2210,7 +2232,7 @@
         
         try {
             // Call API to update profile
-            const response = await fetch(`http://localhost:5000/api/user/profile/${userId}`, {
+            const response = await SPOTNFIX.fetch(`/api/user/profile/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -2224,7 +2246,13 @@
             });
             
             const result = await response.json();
-            
+
+            if (response.status === 401 || response.status === 403 || response.status === 404) {
+                localStorage.removeItem('userData');
+                window.location.href = 'user_login.html';
+                return;
+            }
+
             if (result.success) {
                 // Update localStorage with new data
                 localStorage.setItem('userData', JSON.stringify(result.user));
@@ -2246,11 +2274,11 @@
                 // Show success message
                 alert('Profile updated successfully!');
             } else {
-                alert('Error updating profile: ' + result.message);
+                alert('Error updating profile: ' + (result.message || result.error || 'Unknown error'));
             }
         } catch (error) {
             console.error('Error updating profile:', error);
-            alert('Error updating profile. Please try again.');
+            alert('Could not reach the server. Please check your connection and try again.');
         }
     });
 
@@ -2317,87 +2345,151 @@
 
     // Function to load user profile data
     async function loadUserProfile() {
+        // The session cookie is HttpOnly, so the portal only knows its own ID
+        // from the login response. The backend still verifies both on every call.
+        const stored = localStorage.getItem('userData');
+        let userId = null;
         try {
-            // First try to get user data from localStorage
-            let loadUserData = localStorage.getItem('userData');
-            
-            if (loadUserData) {
-                loadUserData = JSON.parse(loadUserData);
-                updateProfileDisplay(loadUserData);
-                
-                // Load user reports from MongoDB
-                await loadUserReports(loadUserData.id);
-            } else {
-                // If no data in localStorage, redirect to login
-                console.log('No user data found in localStorage, redirecting to login');
-                alert('Please login to access this page');
+            userId = stored ? JSON.parse(stored).id : null;
+        } catch (error) {
+            userId = null;
+        }
+
+        if (!userId) {
+            alert('Please login to access this page');
+            window.location.href = 'user_login.html';
+            return;
+        }
+
+        try {
+            const response = await SPOTNFIX.fetch(`/api/user/profile/${userId}`);
+
+            // 401: no/expired session, 403: stored ID is not the session identity,
+            // 404: the account no longer exists — all mean "log in again".
+            if (response.status === 401 || response.status === 403 || response.status === 404) {
+                localStorage.removeItem('userData');
                 window.location.href = 'user_login.html';
                 return;
             }
+
+            const result = await response.json();
+
+            if (result.success && result.user) {
+                // Backend is the source of truth for the rendered profile
+                localStorage.setItem('userData', JSON.stringify(result.user));
+                updateProfileDisplay(result.user);
+            } else {
+                console.error('Failed to load profile:', result.message || result.error);
+                setDefaultProfile();
+            }
         } catch (error) {
             console.error('Error loading user profile:', error);
-            alert('Error loading user data. Please login again.');
-            window.location.href = 'user_login.html';
+            setDefaultProfile();
         }
+
+        // Reports come from the backend too, independently of the profile call
+        await loadUserReports(userId);
+    }
+
+    // Empty-state markup for both issue lists
+    function emptyIssuesMarkup() {
+        return `
+                            <div class="card text-center py-8">
+                                <i class="fas fa-clipboard-list text-4xl text-gray-300 mb-4"></i>
+                                <h3 class="text-xl font-medium text-gray-600">No issues reported yet</h3>
+                                <p class="text-gray-500 mt-2">Start by reporting your first civic issue</p>
+                                <button class="btn btn-primary mt-4" data-view="report">
+                                    <i class="fas fa-plus"></i>
+                                    Report Your First Issue
+                                </button>
+                            </div>
+        `;
+    }
+
+    function mountEmptyIssues(container) {
+        if (!container) return;
+        container.innerHTML = emptyIssuesMarkup();
+        container.querySelectorAll('[data-view="report"]').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                showView('report');
+            });
+        });
     }
 
     // Function to load user reports from MongoDB
     async function loadUserReports(userId) {
+        const issuesList = document.querySelector('#issues-list');
+        const myIssuesList = document.querySelector('#my-issues-list');
+
         try {
-            const response = await fetch(`http://localhost:5000/api/user/reports/${userId}`);
+            const response = await SPOTNFIX.fetch(`/api/user/reports/${userId}`);
             const result = await response.json();
-            
-            if (result.success && result.reports.length > 0) {
-                // Clear existing issues
-                const issuesList = document.querySelector('#issues-list');
-                const myIssuesList = document.querySelector('#my-issues-list');
-                
-                if (issuesList.querySelector('.card.text-center')) {
-                    issuesList.innerHTML = '';
-                }
-                
-                if (myIssuesList.querySelector('.card.text-center')) {
-                    myIssuesList.innerHTML = '';
-                }
-                
+
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('userData');
+                window.location.href = 'user_login.html';
+                return;
+            }
+
+            if (!result.success) {
+                console.error('Failed to load reports:', result.message || result.error);
+                return;
+            }
+
+            const reports = result.reports || [];
+
+            // Re-render both lists from scratch so reloads never duplicate cards
+            if (issuesList) issuesList.innerHTML = '';
+            if (myIssuesList) myIssuesList.innerHTML = '';
+
+            if (reports.length === 0) {
+                mountEmptyIssues(issuesList);
+                mountEmptyIssues(myIssuesList);
+            } else {
                 // Add reports to both lists
-                result.reports.forEach(report => {
+                reports.forEach(report => {
+                    const st = SPOTNFIX.canonicalStatus(report.status);
+                    const statusText = st.split('_').map(function (w) { return w.charAt(0) + w.slice(1).toLowerCase(); }).join(' ');
                     const issueData = {
                         id: report._id,
                         title: report.issue_title,
                         category: report.issue_category,
                         location: report.issue_location,
                         description: report.issue_description,
-                        status: report.status,
+                        status: statusText,
                         priority: report.priority + ' Priority',
-                        progress: report.status === 'completed' ? 100 : (report.status === 'pending' ? 25 : 50),
+                        progress: st === 'RESOLVED' ? 100 : (st === 'PENDING' ? 25 : 50),
                         dueDays: 7,
                         reportedDate: new Date(report.created_at).toLocaleDateString()
                     };
-                    
+
                     const issueCard = createIssueCard(issueData);
                     issuesList.prepend(issueCard);
                     myIssuesList.prepend(issueCard.cloneNode(true));
                 });
-                
-                // Update stats
-                const totalIssues = document.getElementById('total-issues');
-                const resolvedIssues = document.getElementById('resolved-issues');
-                const pendingIssues = document.getElementById('pending-issues');
-                
-                const total = result.reports.length;
-                const resolved = result.reports.filter(r => r.status === 'completed').length;
-                const pending = result.reports.filter(r => r.status === 'pending').length;
-                
-                totalIssues.textContent = total;
-                resolvedIssues.textContent = resolved;
-                pendingIssues.textContent = pending;
-                
-                // Update profile stats
-                updateProfileStats(total, resolved, pending);
             }
+
+            // Update stats on every load, including the zero-report case
+            const totalIssues = document.getElementById('total-issues');
+            const resolvedIssues = document.getElementById('resolved-issues');
+            const pendingIssues = document.getElementById('pending-issues');
+
+            const total = reports.length;
+            const resolved = reports.filter(r => SPOTNFIX.canonicalStatus(r.status) === 'RESOLVED').length;
+            const pending = reports.filter(r => SPOTNFIX.canonicalStatus(r.status) === 'PENDING').length;
+
+            if (totalIssues) totalIssues.textContent = total;
+            if (resolvedIssues) resolvedIssues.textContent = resolved;
+            if (pendingIssues) pendingIssues.textContent = pending;
+
+            // Update profile stats
+            updateProfileStats(total, resolved, pending);
         } catch (error) {
             console.error('Error loading user reports:', error);
+            // Keep whatever is already rendered; only fill in if the lists are empty
+            if (issuesList && issuesList.children.length === 0) mountEmptyIssues(issuesList);
+            if (myIssuesList && myIssuesList.children.length === 0) mountEmptyIssues(myIssuesList);
         }
     }
 
@@ -2480,16 +2572,18 @@
         el.textContent = 'Logout';
         el.setAttribute('aria-label', 'Logout');
 
-        if (el.tagName === 'A') {
-            el.setAttribute('href', 'user_login.html');
-        } else {
-        el.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Clear user data from localStorage
-            localStorage.removeItem('userData');
-            window.location.href = 'user_login.html';
-        });
+        // Invalidate the server-side session first, then drop the local copy.
+        function endSession(e) {
+            if (e) e.preventDefault();
+            SPOTNFIX.fetch('/api/logout', { method: 'POST' })
+                .catch(function() {})
+                .then(function() {
+                    localStorage.removeItem('userData');
+                    window.location.href = 'user_login.html';
+                });
         }
+
+        el.addEventListener('click', endSession);
     }
 
     if (document.readyState === 'loading') {

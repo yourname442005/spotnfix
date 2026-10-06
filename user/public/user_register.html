@@ -327,6 +327,7 @@
     <span class="alert-text"><strong>Important:</strong> False or malicious reports may invite penalties under municipal bylaws. Please ensure all reports are genuine and accurate.</span>
     </div>
 
+  <script src="/shared/api-config.js"></script>
   <script>
   // store user data function
   async function registerUser() {
@@ -343,7 +344,7 @@
   document.getElementById("successMessage").style.display = "none";
 
   try {
-    const response = await fetch("http://localhost:5000/api/signup", {
+    const response = await SPOTNFIX.fetch("/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, phone, email, address, password }),

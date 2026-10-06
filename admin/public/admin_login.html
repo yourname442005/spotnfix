@@ -274,6 +274,7 @@
     </form>
   </div>
 
+  <script src="/shared/api-config.js"></script>
   <script>
     // Dummy login credentials (email instead of userid)
     const dummyAdmin = { email: "admin@example.com", password: "1234" };
@@ -349,7 +350,7 @@
   const errorMsg = document.getElementById("errorMsg");
 
   try {
-    const res = await fetch("http://localhost:5000/api/admin/login", {
+    const res = await SPOTNFIX.fetch("/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
